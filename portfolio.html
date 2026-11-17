@@ -1,302 +1,363 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio | Sri Sai Sahasra Interiors — Our Best Interior Design Projects</title>
-  <meta name="description" content="Browse our stunning portfolio of completed interior design projects — living rooms, kitchens, bedrooms, offices, and more in Hyderabad." />
+  <title>Curated Portfolio & Showcase | SSS Interiors — Sri Sai Sahasra Interiors</title>
+  <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg" />
+  <link rel="apple-touch-icon" href="assets/images/logo.jpg" />
+  <meta name="description" content="View signature bespoke residential and commercial transformations by SSS Interiors (Sri Sai Sahasra Interiors) across Jubilee Hills, Banjara Hills, and Gachibowli." />
+
+  <!-- Google Fonts: Cormorant Garamond & Jost -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Main Stylesheet -->
   <link rel="stylesheet" href="assets/css/style.css" />
-  <style>
-    /* Portfolio page extras */
-    .portfolio-masonry {
-      columns: 3;
-      column-gap: 20px;
-    }
-    .portfolio-masonry .portfolio-card {
-      break-inside: avoid;
-      margin-bottom: 20px;
-      aspect-ratio: unset;
-      height: auto;
-    }
-    .portfolio-masonry .portfolio-card img {
-      height: auto;
-      width: 100%;
-    }
-    @media (max-width: 1024px) { .portfolio-masonry { columns: 2; } }
-    @media (max-width: 600px)  { .portfolio-masonry { columns: 1; } }
-  </style>
 </head>
 <body>
 
-  <div id="page-loader"><div class="loader-ring"></div><div class="loader-brand">SSSI</div></div>
+  <!-- Page Loader -->
+  <div id="page-loader">
+    <img src="assets/images/logo.jpg" alt="SSS Interiors" class="loader-logo-img" />
+    <div class="loader-line"></div>
+    <div class="loader-sub">Sri Sai Sahasra Interiors</div>
+  </div>
+
   <div id="scroll-progress"></div>
 
-  <!-- TOP BAR -->
+  <!-- ======== TOP BAR ======== -->
   <div class="top-bar">
-    <div class="container">
+    <div class="tb-inner">
       <div class="top-bar-left">
-        <a href="tel:+919876543210"><i class="fas fa-phone"></i> +91 98765 43210</a>
-        <a href="mailto:info@srisaisahasra.com"><i class="fas fa-envelope"></i> info@srisaisahasra.com</a>
-        <span class="hours"><i class="fas fa-clock"></i> Mon–Sat: 9 AM – 7 PM</span>
+        <a href="tel:+917702066446" class="cfg-phone-link" title="Call Primary Mobile">
+          <i class="fas fa-phone-alt"></i>
+          <span class="cfg-phone-text">+91 77020 66446</span>
+        </a>
+        <span class="tb-divider hide-mobile"></span>
+        <a href="https://wa.me/917702066446" class="cfg-whatsapp-link hide-mobile" target="_blank" title="Primary WhatsApp">
+          <i class="fab fa-whatsapp"></i>
+          <span>+91 77020 66446</span>
+        </a>
+        <span class="tb-divider hide-mobile"></span>
+        <a href="mailto:maheshjaya49@gmail.com" class="cfg-email-link hide-mobile" title="Email Us">
+          <i class="far fa-envelope"></i>
+          <span class="cfg-email-text">maheshjaya49@gmail.com</span>
+        </a>
+        <span class="tb-divider hide-mobile"></span>
+        <span class="hide-mobile">
+          <i class="far fa-clock"></i>
+          <span class="cfg-hours">Mon – Sat: 9:00 AM – 7:00 PM</span>
+        </span>
       </div>
       <div class="top-bar-right">
-        <a href="https://wa.me/919876543210" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-        <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://wa.me/917702066446" class="cfg-whatsapp-link" target="_blank" aria-label="Primary WhatsApp: 7702066446" title="Primary WhatsApp: 7702066446"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://wa.me/918919215275" class="cfg-whatsapp-secondary" target="_blank" aria-label="Secondary WhatsApp: +91 891 921 5275" title="Secondary WhatsApp: +91 891 921 5275"><i class="fab fa-whatsapp" style="color:#25D366;"></i></a>
+        <a href="#" class="cfg-instagram" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="cfg-facebook" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="cfg-youtube" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
       </div>
     </div>
   </div>
 
-  <!-- NAVBAR -->
+  <!-- ======== NAVIGATION BAR ======== -->
   <nav id="navbar">
-    <div class="nav-container">
+    <div class="nav-inner">
+      
       <div class="nav-logo">
         <a href="index.html">
-          <span class="logo-icon">🏛️</span>
-          <span>Sri Sai Sahasra Interiors<small>Hyderabad's Finest Since 2009</small></span>
+          <img src="assets/images/logo.jpg" alt="SSS Interiors Logo" class="nav-logo-img" />
+          <div class="logo-text-wrap">
+            <span class="logo-brand">SSS <em>INTERIORS</em></span>
+            <span class="logo-tagline">Sri Sai Sahasra Interiors &bull; Estd. 2009</span>
+          </div>
         </a>
       </div>
+
       <ul class="nav-menu" id="nav-menu">
         <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="portfolio.html" class="active">Portfolio</a></li>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="services.html">Expertise</a></li>
+        <li><a href="portfolio.html" class="active">Showcase</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
+
       <div class="nav-actions">
-        <button class="dark-toggle" id="dark-toggle" title="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
-        <a href="contact.html" class="btn-consult">Book Free Consultation</a>
-        <button class="hamburger" id="hamburger" aria-label="Toggle Menu">
+        <a href="#" class="btn-consult cfg-whatsapp-link" target="_blank" data-msg="Hi SSS Interiors, I would like to book a private design consultation.">
+          <i class="fab fa-whatsapp" style="margin-right:6px;"></i> Book Consultation
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle Navigation">
           <span></span><span></span><span></span>
         </button>
       </div>
+
     </div>
   </nav>
 
-  <!-- PAGE HERO -->
+  <!-- ======== PAGE INNER HERO ======== -->
   <section class="page-hero">
-    <div class="page-hero-content container">
-      <h1>Our Portfolio</h1>
-      <div class="breadcrumb">
-        <a href="index.html">Home</a><span>›</span><span>Portfolio</span>
+    <div class="container page-hero-inner">
+      <div class="page-hero-breadcrumb">
+        <a href="index.html">Home</a> <span>/</span> Project Showcase
       </div>
+      <h1>Curated <em>Portfolio</em></h1>
+      <p>Immerse yourself in our recent residential villa sanctuaries, penthouse master suites, and bespoke commercial installations across South India.</p>
     </div>
   </section>
 
-  <!-- PORTFOLIO GALLERY -->
-  <section class="portfolio" style="padding-top:80px;">
+  <!-- ======== PORTFOLIO GALLERY ======== -->
+  <section class="portfolio-page-sec">
     <div class="container">
-      <div class="section-header" data-aos>
-        <span class="section-label">Our Work</span>
-        <h2 class="section-title">Spaces We've Had The Privilege To Design</h2>
-        <div class="divider"><span>✦</span></div>
-        <p class="section-subtitle">Every project is a unique story of vision, trust, and craftsmanship — explore some of our recent transformations.</p>
+      
+      <!-- Filter Bar -->
+      <div class="portfolio-filter" data-reveal style="justify-content:center;margin-bottom:56px;">
+        <button class="pf-btn active" data-filter="all">All Showcase</button>
+        <button class="pf-btn" data-filter="living">Living Rooms</button>
+        <button class="pf-btn" data-filter="kitchen">Kitchens</button>
+        <button class="pf-btn" data-filter="bedroom">Bedrooms</button>
+        <button class="pf-btn" data-filter="dining">Dining & Bar</button>
+        <button class="pf-btn" data-filter="commercial">Commercial</button>
       </div>
 
-      <div class="portfolio-filters">
-        <button class="filter-btn active" data-filter="all">All Projects</button>
-        <button class="filter-btn" data-filter="living">Living Room</button>
-        <button class="filter-btn" data-filter="kitchen">Kitchen</button>
-        <button class="filter-btn" data-filter="bedroom">Bedroom</button>
-        <button class="filter-btn" data-filter="office">Office</button>
-        <button class="filter-btn" data-filter="bathroom">Bathroom</button>
-      </div>
+      <!-- 12 Item Gallery Grid with Lightbox -->
+      <div class="portfolio-page-grid">
 
-      <div class="portfolio-masonry" id="portfolio-grid">
-
-        <!-- Living Rooms -->
-        <div class="portfolio-card" data-category="living" data-aos>
-          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=700&q=80" alt="Modern Living Room — Jubilee Hills" loading="lazy" />
-          <div class="portfolio-overlay">
-            <h3>Prestige Heights Living</h3>
-            <span>Living Room · Jubilee Hills</span>
-            <span class="view-btn"><i class="fas fa-expand"></i> View Full</span>
+        <!-- 1: Living -->
+        <div class="pp-card" data-category="living" data-reveal>
+          <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=900&q=85" alt="Jubilee Hills Villa Living" loading="lazy" />
+          <div class="pp-info">
+            <span class="pp-cat">Living Room • Jubilee Hills</span>
+            <h4 class="pp-title">The Royal Villa Residency</h4>
           </div>
         </div>
 
-        <div class="portfolio-card" data-category="living" data-aos data-aos-delay="80">
-          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=700&q=80" alt="Contemporary Living Room — Banjara Hills" loading="lazy" />
-          <div class="portfolio-overlay">
-            <h3>Skyline Villa Living</h3>
-            <span>Living Room · Banjara Hills</span>
-            <span class="view-btn"><i class="fas fa-expand"></i> View Full</span>
+        <!-- 2: Kitchen -->
+        <div class="pp-card" data-category="kitchen" data-reveal data-delay="100">
+          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=900&q=85" alt="Island Modular Kitchen" loading="lazy" />
+          <div class="pp-info">
+            <span class="pp-cat">Modular Kitchen • Banjara Hills</span>
+            <h4 class="pp-title">Statuario Island Gourmet Kitchen</h4>
           </div>
         </div>
 
-        <!-- Kitchens -->
-        <div class="portfolio-card" data-category="kitchen" data-aos data-aos-delay="40">
-          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=80" alt="Luxury Modular Kitchen — Gachibowli" loading="lazy" />
-          <div class="portfolio-overlay">
-            <h3>Pearl Residency Kitchen</h3>
-            <span>Modular Kitchen · Gachibowli</span>
-            <span class="view-btn"><i class="fas fa-expand"></i> View Full</span>
+        <!-- 3: Bedroom -->
+        <div class="pp-card" data-category="bedroom" data-reveal data-delay="200">
+          <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=900&q=85" alt="Master Suite Bedroom" loading="lazy" />
+          <div class="pp-info">
+            <span class="pp-cat">Master Suite • Gachibowli</span>
+            <h4 class="pp-title">Fluted Oak & Velvet Bed Suite</h4>
           </div>
         </div>
 
-        <div class="portfolio-card" data-category="kitchen" data-aos data-aos-delay="120">
-          <img src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=700&q=80" alt="Open Plan Kitchen — HITEC City" loading="lazy" />
-          <div class="portfolio-overlay">
-            <h3>Lakeview Open Kitchen</h3>
-            <span>Open Plan Kitchen · HITEC City</span>
-            <span class="view-btn"><i class="fas fa-expand"></i> View Full</span>
+        <!-- 4: Dining -->
+        <div class="pp-card" data-category="dining" data-reveal>
+          <img src="https://images.unsplash.com/photo-1617806118233-18e1de247200?w=900&q=85" alt="Luxury Dining Hall" loading="lazy" />
+          <div class="pp-info">
+            <span class="pp-cat">Dining • Madhapur</span>
+            <h4 class="pp-title">Burma Teak 10-Seater Banquet</h4>
           </div>
         </div>
 
-        <!-- Bedrooms -->
-        <div class="portfolio-card" data-category="bedroom" data-aos data-aos-delay="60">
-          <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=700&q=80" alt="Luxury Master Bedroom — Kondapur" loading="lazy" />
-          <div class="portfolio-overlay">
-            <h3>Royal Suites Master Bedroom</h3>
-            <span>Bedroom · Kondapur</span>
-            <span class="view-btn"><i class="fas fa-expand"></i> View Full</span>
+        <!-- 5: Commercial -->
+        <div class="pp-card" data-category="commercial" data-reveal data-delay="100">
+          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=85" alt="Executive Corporate Office" loading="lazy" />
+          <div class="pp-info">
+            <span class="pp-cat">Commercial • HITEC City</span>
+            <h4 class="pp-title">Fintech Headquarters Boardroom</h4>
           </div>
         </div>
 
-        <div class="portfolio-card" data-category="bedroom" data-aos data-aos-delay="140">
-          <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=700&q=80" alt="Modern Guest Bedroom — Madhapur" loading="lazy" />
-          <div class="portfolio-overlay">
-            <h3>Serene Guest Bedroom</h3>
-            <span>Bedroom · Madhapur</span>
-            <span class="view-btn"><i class="fas fa-expand"></i> View Full</span>
+        <!-- 6: Living -->
+        <div class="pp-card" data-category="living" data-reveal data-delay="200">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=900&q=85" alt="Penthouse Living Room" loading="lazy" />
+          <div class="pp-info">
+            <span class="pp-cat">Living Room • Kokapet</span>
+            <h4 class="pp-title">The Sky Duplex Penthouse</h4>
           </div>
         </div>
 
-        <!-- Office -->
-        <div class="portfolio-card" data-category="office" data-aos data-aos-delay="30">
-          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80" alt="Modern Corporate Office — HITEC City" loading="lazy" />
-          <div class="portfolio-overlay">
-            <h3>TechPark Office Suite</h3>
-            <span>Corporate Office · HITEC City</span>
-            <span class="view-btn"><i class="fas fa-expand"></i> View Full</span>
+        <!-- 7: Kitchen -->
+        <div class="pp-card" data-category="kitchen" data-reveal>
+          <img src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=900&q=85" alt="Open Concept Minimal Kitchen" loading="lazy" />
+          <div class="pp-info">
+            <span class="pp-cat">Kitchen • Financial District</span>
+            <h4 class="pp-title">Matte Graphite & Copper Kitchen</h4>
           </div>
         </div>
 
-        <div class="portfolio-card" data-category="office" data-aos data-aos-delay="110">
-          <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=700&q=80" alt="Open Plan Office — Gachibowli" loading="lazy" />
-          <div class="portfolio-overlay">
-            <h3>Innovate Hub Coworking</h3>
-            <span>Open Office · Gachibowli</span>
-            <span class="view-btn"><i class="fas fa-expand"></i> View Full</span>
+        <!-- 8: Bedroom -->
+        <div class="pp-card" data-category="bedroom" data-reveal data-delay="100">
+          <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=900&q=85" alt="Guest Bedroom Interior" loading="lazy" />
+          <div class="pp-info">
+            <span class="pp-cat">Bedroom • Jubilee Hills</span>
+            <h4 class="pp-title">Warm Minimalist Guest Suite</h4>
           </div>
         </div>
 
-        <!-- Bathroom -->
-        <div class="portfolio-card" data-category="bathroom" data-aos data-aos-delay="70">
-          <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=700&q=80" alt="Luxury Bathroom — Jubilee Hills" loading="lazy" />
-          <div class="portfolio-overlay">
-            <h3>Spa-Style Master Bath</h3>
-            <span>Bathroom · Jubilee Hills</span>
-            <span class="view-btn"><i class="fas fa-expand"></i> View Full</span>
+        <!-- 9: Dining -->
+        <div class="pp-card" data-category="dining" data-reveal data-delay="200">
+          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=900&q=85" alt="Formal Dining Lounge" loading="lazy" />
+          <div class="pp-info">
+            <span class="pp-cat">Dining • Banjara Hills</span>
+            <h4 class="pp-title">Onyx Backlit Dining Credenza</h4>
           </div>
         </div>
 
-        <div class="portfolio-card" data-category="bathroom" data-aos data-aos-delay="150">
-          <img src="https://images.unsplash.com/photo-1620626011761-996317702782?w=700&q=80" alt="Modern Bathroom — Banjara Hills" loading="lazy" />
-          <div class="portfolio-overlay">
-            <h3>Contemporary En-Suite</h3>
-            <span>Bathroom · Banjara Hills</span>
-            <span class="view-btn"><i class="fas fa-expand"></i> View Full</span>
+        <!-- 10: Commercial -->
+        <div class="pp-card" data-category="commercial" data-reveal>
+          <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=900&q=85" alt="Boutique Office Reception" loading="lazy" />
+          <div class="pp-info">
+            <span class="pp-cat">Commercial • Kondapur</span>
+            <h4 class="pp-title">Venture Capital Reception Hub</h4>
           </div>
         </div>
 
-        <!-- Extra Living -->
-        <div class="portfolio-card" data-category="living" data-aos data-aos-delay="90">
-          <img src="https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?w=700&q=80" alt="Traditional Living Room — Secunderabad" loading="lazy" />
-          <div class="portfolio-overlay">
-            <h3>Heritage Manor Living</h3>
-            <span>Living Room · Secunderabad</span>
-            <span class="view-btn"><i class="fas fa-expand"></i> View Full</span>
+        <!-- 11: Living -->
+        <div class="pp-card" data-category="living" data-reveal data-delay="100">
+          <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=900&q=85" alt="Contemporary Drawing Lounge" loading="lazy" />
+          <div class="pp-info">
+            <span class="pp-cat">Living Room • Tellapur</span>
+            <h4 class="pp-title">Villa Courtyard Lounge</h4>
           </div>
         </div>
 
-        <!-- Extra Kitchen -->
-        <div class="portfolio-card" data-category="kitchen" data-aos data-aos-delay="170">
-          <img src="https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=700&q=80" alt="White Kitchen Design — Kukatpally" loading="lazy" />
-          <div class="portfolio-overlay">
-            <h3>Pristine White Kitchen</h3>
-            <span>Modular Kitchen · Kukatpally</span>
-            <span class="view-btn"><i class="fas fa-expand"></i> View Full</span>
+        <!-- 12: Kitchen -->
+        <div class="pp-card" data-category="kitchen" data-reveal data-delay="200">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=85" alt="Luxury Modular Kitchen" loading="lazy" />
+          <div class="pp-info">
+            <span class="pp-cat">Kitchen • Vijayawada</span>
+            <h4 class="pp-title">Seamless Handle-less Kitchen Suite</h4>
           </div>
         </div>
 
       </div>
+
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="cta-banner">
+  <!-- ======== CTA BANNER ======== -->
+  <section class="cta-banner" style="background-image:url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1800&q=85');">
     <div class="container">
-      <h2 data-aos>Love What You See? Let's Create Yours.</h2>
-      <p data-aos data-aos-delay="100">Every project in our portfolio started with a simple conversation.<br>Book a free consultation and let's start crafting your space today.</p>
-      <div class="cta-banner-actions" data-aos data-aos-delay="200">
-        <a href="contact.html" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Book Consultation</a>
-        <a href="https://wa.me/919876543210" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+      <div class="cta-banner-inner" data-reveal>
+        <span class="sec-eyebrow">Experience In Person</span>
+        <h2 class="sec-title on-dark">Inspired By A <em>Specific Project?</em></h2>
+        <p class="sec-sub">Click below to discuss that exact aesthetic, material finish, or layout with our senior architects on WhatsApp.</p>
+        <div class="cta-actions">
+          <a href="#" class="btn btn-whatsapp cfg-whatsapp-link" target="_blank" data-msg="Hi SSS Interiors, I saw your portfolio and would like to achieve a similar design for my home.">
+            <i class="fab fa-whatsapp"></i> Inquire On WhatsApp
+          </a>
+          <a href="contact.html" class="btn btn-outline-white"><i class="fas fa-calendar-check"></i> Book Consultation</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- ======== LUXURY FOOTER ======== -->
   <footer>
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="logo-text">🏛️ Sri Sai Sahasra Interiors</div>
-          <p class="footer-tagline">Transforming houses into dream homes since 2009. Hyderabad's most trusted name in luxury interior design.</p>
-          <div class="footer-social">
-            <a href="https://wa.me/919876543210" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-            <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <div>
+          <div class="footer-logo-wrap">
+            <div class="footer-logo-mark">
+              <img src="assets/images/logo.jpg" alt="SSS Interiors Logo" class="footer-logo-img" />
+              <div>
+                <span class="footer-brand-name">SSS <em>INTERIORS</em></span>
+                <span class="footer-brand-full cfg-brand-full">Sri Sai Sahasra Interiors</span>
+              </div>
+            </div>
+          </div>
+          <p class="footer-about">
+            Hyderabad's trusted turnkey interior architecture and bespoke craftsmanship since 2009. Guided by our MD &amp; CEO Mahesh, we transform residences into timeless masterpieces.
+          </p>
+          <div class="footer-socials">
+            <a href="https://wa.me/917702066446" class="footer-social-link cfg-whatsapp-link" target="_blank" aria-label="Primary WhatsApp: 7702066446" title="Primary WhatsApp: 7702066446"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://wa.me/918919215275" class="footer-social-link cfg-whatsapp-secondary" target="_blank" aria-label="Secondary WhatsApp: +91 891 921 5275" title="Secondary WhatsApp: +91 891 921 5275"><i class="fab fa-whatsapp" style="color:#25D366;"></i></a>
+            <a href="#" class="footer-social-link cfg-instagram" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="footer-social-link cfg-facebook" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="footer-social-link cfg-youtube" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
           </div>
         </div>
+
         <div class="footer-col">
-          <h4>Quick Links</h4>
+          <h4>Navigation</h4>
           <ul class="footer-links">
             <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="portfolio.html">Portfolio</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="about.html">Our Story &amp; Leadership</a></li>
+            <li><a href="services.html">Design Expertise</a></li>
+            <li><a href="portfolio.html">Recent Showcase</a></li>
+            <li><a href="contact.html">Visit Experience Centre</a></li>
           </ul>
         </div>
+
         <div class="footer-col">
-          <h4>Our Services</h4>
+          <h4>Disciplines</h4>
           <ul class="footer-links">
-            <li><a href="services.html">Modular Kitchen</a></li>
-            <li><a href="services.html">Living Room</a></li>
-            <li><a href="services.html">Bedroom Interiors</a></li>
-            <li><a href="services.html">False Ceiling</a></li>
-            <li><a href="services.html">Flooring</a></li>
-            <li><a href="services.html">Commercial</a></li>
+            <li><a href="services.html">Living Rooms &amp; Lounges</a></li>
+            <li><a href="services.html">Modular Kitchens</a></li>
+            <li><a href="services.html">Master Bedroom Suites</a></li>
+            <li><a href="services.html">Walk-In Wardrobes</a></li>
+            <li><a href="services.html">False Ceilings &amp; Lighting</a></li>
+            <li><a href="services.html">Corporate Offices</a></li>
           </ul>
         </div>
+
         <div class="footer-col">
-          <h4>Contact Info</h4>
-          <ul class="footer-contact">
-            <li><i class="fas fa-map-marker-alt"></i><span>Plot No. 42, Jubilee Hills,<br>Hyderabad – 500 033</span></li>
-            <li><i class="fas fa-phone"></i><a href="tel:+919876543210">+91 98765 43210</a></li>
-            <li><i class="fas fa-envelope"></i><a href="mailto:info@srisaisahasra.com">info@srisaisahasra.com</a></li>
-            <li><i class="fas fa-clock"></i><span>Mon–Sat: 9 AM – 7 PM</span></li>
+          <h4>Head Office &amp; Branches</h4>
+          <ul class="footer-contact-list">
+            <li>
+              <i class="fas fa-map-marker-alt"></i>
+              <span class="cfg-address">Plot No : 103, Lingamsetty Arcade,<br>near by mehara sai school, padma nagar phase 2,<br>Chintal, Hyderabad, Telangana</span>
+            </li>
+            <li style="color:var(--gold);font-size:0.83rem;">
+              <i class="fas fa-store-alt"></i>
+              <span><strong>Other Branches:</strong><br>Madhapur, Kukatpally, Hitech City &ndash; HYD- TG.</span>
+            </li>
+            <li>
+              <i class="fas fa-phone-alt"></i>
+              <a href="tel:+917702066446" class="cfg-phone-link"><span class="cfg-phone-text">+91 77020 66446</span></a>
+            </li>
+            <li>
+              <i class="fab fa-whatsapp"></i>
+              <span>
+                <a href="https://wa.me/917702066446" target="_blank" class="cfg-whatsapp-link">+91 77020 66446 (Primary)</a><br>
+                <a href="https://wa.me/918919215275" target="_blank" class="cfg-whatsapp-secondary" style="color:rgba(255,255,255,0.7);font-size:0.82rem;">+91 891 921 5275 (Secondary)</a>
+              </span>
+            </li>
+            <li>
+              <i class="far fa-envelope"></i>
+              <a href="mailto:maheshjaya49@gmail.com" class="cfg-email-link"><span class="cfg-email-text">maheshjaya49@gmail.com</span></a>
+            </li>
+            <li>
+              <i class="far fa-clock"></i>
+              <span class="cfg-hours">Mon &ndash; Sat: 9:00 AM &ndash; 7:00 PM</span>
+            </li>
           </ul>
         </div>
       </div>
     </div>
+
     <div class="footer-bottom">
-      <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-        <span>© 2024 Sri Sai Sahasra Interiors. All Rights Reserved.</span>
-        <span>Designed with ❤️ in Hyderabad</span>
-      </div>
+      <span>&copy; 2024 SSS Interiors (Sri Sai Sahasra Interiors). All Rights Reserved.</span>
+      <span>Head Office: Chintal | Branches: Madhapur &bull; Kukatpally &bull; Hitech City (HYD- TG)</span>
     </div>
   </footer>
 
-  <a href="https://wa.me/919876543210" class="whatsapp-float" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-  <button id="scroll-top" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
-  <div id="lightbox"><button id="lightbox-close"><i class="fas fa-times"></i></button><img id="lightbox-img" src="" alt="" /></div>
+  <a href="#" class="wa-float cfg-whatsapp-link" target="_blank" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  <button id="scroll-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- Lightbox Container -->
+  <div id="lightbox">
+    <button id="lightbox-close" aria-label="Close lightbox"><i class="fas fa-times"></i></button>
+    <img id="lightbox-img" src="" alt="Full Portfolio View" />
+  </div>
+
+  <script src="config.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

@@ -1,8 +1,7 @@
 /**
  * =====================================================
  *   SSS INTERIORS — GLOBAL SITE CONFIGURATION
- *   Edit this file to update contact details across
- *   the ENTIRE website instantly.
+ *   Sri Sai Sahasra Interiors
  * =====================================================
  */
 const SITE_CONFIG = {
@@ -13,24 +12,47 @@ const SITE_CONFIG = {
   tagline:       "Transforming Houses Into Dream Homes Since 2009",
   established:   "2009",
   location:      "Hyderabad, Telangana",
+  logo:          "assets/images/logo.jpg",
 
-  /* ── WHATSAPP ───────────────────────────────────── */
-  // Change ONLY this number to update WhatsApp across the whole site
-  // Format: country code + number, no spaces, no + sign (e.g., 919876543210)
-  whatsappNumber: "919876543210",
-  whatsappMessage: "Hi, I am interested in your interior design services. Please get in touch.",
+  /* ── LEADERSHIP ────────────────────────────────── */
+  leadership: {
+    name:  "Mahesh",
+    role:  "MD & CEO",
+    image: "assets/images/mahesh-md-ceo.jpg"
+  },
 
-  /* ── PHONE ──────────────────────────────────────── */
-  phone1: "+91 98765 43210",
-  phone1Raw: "+919876543210",
-  phone2: "040 2345 6789",
-  phone2Raw: "+914023456789",
+  /* ── PRIMARY MOBILE & WHATSAPP ─────────────────── */
+  primaryPhone:            "+91 77020 66446",
+  primaryPhoneRaw:         "+917702066446",
+  whatsappNumber:          "917702066446",
+  whatsappMessage:         "Hi SSS Interiors, I am interested in your interior design services. Please get in touch.",
+
+  /* ── SECONDARY WHATSAPP & PHONE ────────────────── */
+  secondaryWhatsappNumber: "918919215275",
+  secondaryPhone:          "+91 891 921 5275",
+  secondaryPhoneRaw:       "+918919215275",
+
+  /* Backward compatibility aliases */
+  phone1:    "+91 77020 66446",
+  phone1Raw: "+917702066446",
+  phone2:    "+91 891 921 5275",
+  phone2Raw: "+918919215275",
 
   /* ── EMAIL ──────────────────────────────────────── */
-  email: "info@sssinteriors.com",
+  email: "maheshjaya49@gmail.com",
 
-  /* ── ADDRESS ────────────────────────────────────── */
-  address: "Plot No. 42, Jubilee Hills,<br>Hyderabad – 500 033, Telangana",
+  /* ── HEAD OFFICE ADDRESS ────────────────────────── */
+  address: "Plot No : 103, Lingamsetty Arcade, near by mehara sai school, padma nagar phase 2, Chintal, Hyderabad, Telangana",
+  addressHTML: "Plot No : 103, Lingamsetty Arcade,<br>near by mehara sai school, padma nagar phase 2,<br>Chintal, Hyderabad, Telangana",
+
+  /* ── OTHER BRANCHES ─────────────────────────────── */
+  branches: [
+    "Madhapur",
+    "Kukatpally",
+    "Hitech City"
+  ],
+  branchesText: "Madhapur, Kukatpally, Hitech City - these three are other branches - HYD- TG.",
+  branchesHTML: "<strong>Other Branches:</strong> Madhapur, Kukatpally, Hitech City (HYD- TG)",
 
   /* ── WORKING HOURS ──────────────────────────────── */
   hours: "Mon – Sat: 9:00 AM – 7:00 PM",
