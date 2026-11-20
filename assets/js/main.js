@@ -396,6 +396,27 @@
         startTestimonials();
       });
     });
+
+    // Pause auto-sliding on hover, resume on leave
+    tTrack.addEventListener('mouseenter', () => clearInterval(tInterval));
+    tTrack.addEventListener('mouseleave', () => startTestimonials());
+
+    // Touch swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    tTrack.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      clearInterval(tInterval);
+    }, { passive: true });
+    tTrack.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        setTestimonial(currentTIdx + 1);
+      } else if (touchEndX - touchStartX > 50) {
+        setTestimonial(currentTIdx - 1);
+      }
+      startTestimonials();
+    }, { passive: true });
   }
 
   /* ------------------------------------------------------------
@@ -455,13 +476,83 @@
   const starRatingSelector = document.getElementById('starRatingSelector');
   const reviewRatingVal = document.getElementById('reviewRatingVal');
   const reviewSuccessMsg = document.getElementById('reviewSuccessMsg');
+  const customerReviewsFeed = document.getElementById('customerReviewsFeed');
+
+    const defaultVerifiedReviews = [
+    {
+      name: "Dr. Ramesh & Sunita Rao",
+      project: "Turnkey Duplex Villa • Jubilee Hills",
+      rating: 5,
+      comment: "SSS Interiors designed our 4500 sq ft duplex villa in Jubilee Hills. The level of bespoke craftsmanship in the modular kitchen and double-height living room is truly world-class. Mahesh Shinde and the site engineers were on top of every millimeter!",
+      date: "Nov 2026"
+    },
+    {
+      name: "S. Venkat Reddy",
+      project: "Turnkey Construction & Interior • Madhapur",
+      rating: 5,
+      comment: "SSS Interiors handled our independent house construction right from plot foundation to complete interior woodwork. Having single-point accountability for civil + interior was the best decision! Zero stress, delivered on schedule.",
+      date: "Oct 2026"
+    },
+    {
+      name: "Priya & Vikram Naidu",
+      project: "3BHK Penthouse • Financial District",
+      rating: 5,
+      comment: "The biggest fear with interior decorators is delays and hidden costs. Sri Sai Sahasra Interiors gave us a fixed quotation with timeline commitments and delivered 4 days ahead of schedule! Best decision we took.",
+      date: "Sep 2026"
+    },
+    {
+      name: "Sunitha & Rajeshwar Rao",
+      project: "Duplex Villa Living & Kitchen • Jubilee Hills",
+      rating: 5,
+      comment: "The 3D wave accent wall, curved sofa layout, and chef-grade island kitchen exceeded our highest expectations. Visitors always compliment the acoustic wall paneling.",
+      date: "Aug 2026"
+    },
+    {
+      name: "Harish Varma",
+      project: "Master Bedroom Suite & Bar • Gachibowli",
+      rating: 5,
+      comment: "Flawless craftsmanship in the fluted oak bedroom and custom marble center tables. The in-house carpentry team was punctual, clean, and highly professional throughout.",
+      date: "Jul 2026"
+    },
+    {
+      name: "Anand & Meera Joshi",
+      project: "Modular Kitchen & Dining • Banjara Hills",
+      rating: 5,
+      comment: "Their modular kitchen engineering is unmatched in Hyderabad. The soft-close German hardware, scratch-proof acrylic shutters, and quartz island look straight out of an architectural digest.",
+      date: "Jun 2026"
+    },
+    {
+      name: "Kalyan Chakravarthy",
+      project: "Full Home Interior • Gachibowli",
+      rating: 5,
+      comment: "From false ceilings with indirect warm cove lighting to custom Burma teak beds, SSS Interiors transformed our apartment into a palace. Truly transparent pricing.",
+      date: "May 2026"
+    },
+    {
+      name: "Kishore R. & Family",
+      project: "Commercial Office (3000 sq ft) • HITEC City",
+      rating: 5,
+      comment: "We hired them for our 3000 sq ft corporate office in HITEC City. The executive boardroom acoustics, ergonomic workstations, and reception aesthetic boosted our brand image tremendously.",
+      date: "Apr 2026"
+    },
+    {
+      name: "Sneha Reddy",
+      project: "Turnkey 4BHK • Kokapet",
+      rating: 5,
+      comment: "Even after 2 years of completion, when we needed a small hinge adjustment in our wardrobe, their support team came within 24 hours. The after-sales care is extraordinary.",
+      date: "Mar 2026"
+    }
+  ];
 
   function getStoredReviews() {
     try {
-      return JSON.parse(localStorage.getItem('sss_customer_reviews')) || [];
-    } catch (e) {
-      return [];
-    }
+      const stored = localStorage.getItem('sss_customer_reviews');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+    return defaultVerifiedReviews;
   }
 
   function saveStoredReviews(reviews) {
@@ -472,26 +563,37 @@
     }
   }
 
-  function createReviewElement(rev) {
-    const item = document.createElement('div');
-    item.className = 't-item';
+  function createCustomerReviewCard(rev, isNew) {
+    const card = document.createElement('div');
+    card.className = 'cr-card';
+    if (isNew) {
+      card.style.borderColor = 'var(--gold)';
+      card.style.boxShadow = '0 8px 24px rgba(200, 169, 106, 0.25)';
+    }
+
     const initial = (rev.name && rev.name.trim().length > 0) ? rev.name.trim().charAt(0).toUpperCase() : 'C';
     const starCount = Math.max(1, Math.min(5, parseInt(rev.rating, 10) || 5));
-    const stars = '★'.repeat(starCount) + '☆'.repeat(5 - starCount);
+    const starHtml = '<i class="fas fa-star" style="color:var(--gold);margin-right:2px;"></i>'.repeat(starCount) + '<i class="far fa-star" style="color:rgba(255,255,255,0.25);margin-right:2px;"></i>'.repeat(5 - starCount);
+    const dateText = rev.date || (rev.timestamp ? new Date(rev.timestamp).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Verified Homeowner');
 
-    item.innerHTML = `
-      <span class="t-badge-new"><i class="fas fa-check-circle"></i> Verified Review</span>
-      <div class="t-stars">${stars}</div>
-      <p class="t-text">"${escapeHtml(rev.comment)}"</p>
-      <div class="t-author">
-        <div class="t-avatar">${initial}</div>
+    card.innerHTML = `
+      <div class="cr-card-top">
+        <div class="cr-header-row">
+          <span class="cr-badge"><i class="fas fa-check-circle"></i> Verified Homeowner</span>
+          <span class="cr-date">${dateText}</span>
+        </div>
+        <div class="cr-stars">${starHtml}</div>
+        <p class="cr-comment">"${escapeHtml(rev.comment)}"</p>
+      </div>
+      <div class="cr-author">
+        <div class="cr-avatar">${initial}</div>
         <div>
-          <div class="t-name">${escapeHtml(rev.name)}</div>
-          <div class="t-project">${escapeHtml(rev.project || 'Residential Interior')}</div>
+          <div class="cr-name">${escapeHtml(rev.name)}</div>
+          <div class="cr-location">${escapeHtml(rev.project || 'Residential Turnkey Project')}</div>
         </div>
       </div>
     `;
-    return item;
+    return card;
   }
 
   function escapeHtml(str) {
@@ -505,18 +607,45 @@
     }[m]));
   }
 
-  function renderStoredReviews() {
-    const firstCard = document.querySelector('.testimonial-card');
-    if (!firstCard) return;
-    const stored = getStoredReviews();
-    stored.forEach(rev => {
-      const el = createReviewElement(rev);
-      firstCard.prepend(el);
+  function renderCustomerReviews(filterCat = 'all') {
+    if (!customerReviewsFeed) return;
+    customerReviewsFeed.innerHTML = '';
+    let reviews = getStoredReviews();
+    
+    // Check if on dedicated reviews page
+    const isReviewsPage = window.location.pathname.endsWith('reviews.html') || !!document.getElementById('allReviewsPageContainer');
+    
+    if (filterCat !== 'all') {
+      if (filterCat === '5star') {
+        reviews = reviews.filter(r => parseInt(r.rating, 10) === 5);
+      } else {
+        reviews = reviews.filter(r => (r.project || '').toLowerCase().includes(filterCat.toLowerCase()));
+      }
+    }
+    
+    // On homepage, display initial 3 reviews; on reviews.html display all
+    const listToRender = isReviewsPage ? reviews : reviews.slice(0, 3);
+    
+    listToRender.forEach(rev => {
+      customerReviewsFeed.appendChild(createCustomerReviewCard(rev, false));
     });
   }
 
-  // Load existing user-submitted reviews on page ready
-  renderStoredReviews();
+  // Initial load
+  renderCustomerReviews();
+
+  // Filter Buttons on reviews.html if present
+  const reviewFilterBtns = document.querySelectorAll('.rf-btn');
+  if (reviewFilterBtns.length > 0) {
+    reviewFilterBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        reviewFilterBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const cat = this.getAttribute('data-filter') || 'all';
+        renderCustomerReviews(cat);
+      });
+    });
+  }
 
   if (openReviewModalBtn && reviewModal) {
     openReviewModalBtn.addEventListener('click', () => {
@@ -609,12 +738,10 @@
       existing.unshift(newReview);
       saveStoredReviews(existing);
 
-      // Dynamically add to website DOM
-      const firstCard = document.querySelector('.testimonial-card');
-      if (firstCard) {
-        const newEl = createReviewElement(newReview);
-        newEl.style.borderColor = 'var(--gold)';
-        firstCard.prepend(newEl);
+      // Dynamically prepend to feed with zero extra space or grid distortion
+      if (customerReviewsFeed) {
+        const newEl = createCustomerReviewCard(newReview, true);
+        customerReviewsFeed.prepend(newEl);
       }
 
       // Show success feedback
@@ -625,16 +752,70 @@
       }
       if (reviewRatingVal) reviewRatingVal.value = '5';
 
-      // Auto close modal after 1.5s
+      // Auto close modal after 1.2s and smooth scroll to reviews
       setTimeout(() => {
         closeReviewModal();
         if (reviewSuccessMsg) reviewSuccessMsg.style.display = 'none';
-        const testSec = document.getElementById('testimonials');
-        if (testSec) {
-          testSec.scrollIntoView({ behavior: 'smooth' });
+        const reviewsWrap = document.getElementById('customerReviewsFeedWrap');
+        if (reviewsWrap) {
+          reviewsWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
-      }, 1500);
+      }, 1200);
     });
+  }
+
+  /* ------------------------------------------------------------
+     14. CUSTOMER SERVICES CONTINUOUS SLOW-MOTION HORIZONTAL SCROLL
+  ------------------------------------------------------------ */
+  const csScrollTrack = document.getElementById('csScrollTrack');
+  const csPrevBtn = document.getElementById('csPrevBtn');
+  const csNextBtn = document.getElementById('csNextBtn');
+
+  if (csScrollTrack) {
+    let isCsPaused = false;
+    let resumeTimeout = null;
+
+    // Smooth continuous auto-scroll ticker (moves slowly)
+    function autoScrollTick() {
+      if (!isCsPaused) {
+        csScrollTrack.scrollLeft += 0.8; // Slow, elegant speed
+        // If reached end, seamlessly wrap to start
+        if (csScrollTrack.scrollLeft >= (csScrollTrack.scrollWidth - csScrollTrack.clientWidth - 2)) {
+          csScrollTrack.scrollLeft = 0;
+        }
+      }
+      requestAnimationFrame(autoScrollTick);
+    }
+
+    // Start auto-scrolling
+    requestAnimationFrame(autoScrollTick);
+
+    // Pause on hover or touch so user can click or read easily
+    csScrollTrack.addEventListener('mouseenter', () => { isCsPaused = true; });
+    csScrollTrack.addEventListener('mouseleave', () => { isCsPaused = false; });
+    csScrollTrack.addEventListener('touchstart', () => { isCsPaused = true; }, { passive: true });
+    csScrollTrack.addEventListener('touchend', () => {
+      clearTimeout(resumeTimeout);
+      resumeTimeout = setTimeout(() => { isCsPaused = false; }, 2000);
+    }, { passive: true });
+
+    // Arrow navigation buttons
+    if (csPrevBtn) {
+      csPrevBtn.addEventListener('click', () => {
+        isCsPaused = true;
+        csScrollTrack.scrollBy({ left: -300, behavior: 'smooth' });
+        clearTimeout(resumeTimeout);
+        resumeTimeout = setTimeout(() => { isCsPaused = false; }, 3000);
+      });
+    }
+    if (csNextBtn) {
+      csNextBtn.addEventListener('click', () => {
+        isCsPaused = true;
+        csScrollTrack.scrollBy({ left: 300, behavior: 'smooth' });
+        clearTimeout(resumeTimeout);
+        resumeTimeout = setTimeout(() => { isCsPaused = false; }, 3000);
+      });
+    }
   }
 
 })();
