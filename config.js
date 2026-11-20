@@ -16,7 +16,7 @@ const SITE_CONFIG = {
 
   /* ── LEADERSHIP ────────────────────────────────── */
   leadership: {
-    name:  "Mahesh",
+    name:  "Mahesh Shinde",
     role:  "MD & CEO",
     image: "assets/images/mahesh-md-ceo.jpg"
   },

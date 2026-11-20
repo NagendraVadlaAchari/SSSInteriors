@@ -445,4 +445,196 @@
     });
   }
 
+  /* ------------------------------------------------------------
+     13. DYNAMIC CUSTOMER REVIEWS (Interactive Addition & Persistence)
+  ------------------------------------------------------------ */
+  const openReviewModalBtn = document.getElementById('openReviewModalBtn');
+  const closeReviewModalBtn = document.getElementById('closeReviewModalBtn');
+  const reviewModal = document.getElementById('reviewModal');
+  const customerReviewForm = document.getElementById('customerReviewForm');
+  const starRatingSelector = document.getElementById('starRatingSelector');
+  const reviewRatingVal = document.getElementById('reviewRatingVal');
+  const reviewSuccessMsg = document.getElementById('reviewSuccessMsg');
+
+  function getStoredReviews() {
+    try {
+      return JSON.parse(localStorage.getItem('sss_customer_reviews')) || [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveStoredReviews(reviews) {
+    try {
+      localStorage.setItem('sss_customer_reviews', JSON.stringify(reviews));
+    } catch (e) {
+      console.warn('LocalStorage unavailable', e);
+    }
+  }
+
+  function createReviewElement(rev) {
+    const item = document.createElement('div');
+    item.className = 't-item';
+    const initial = (rev.name && rev.name.trim().length > 0) ? rev.name.trim().charAt(0).toUpperCase() : 'C';
+    const starCount = Math.max(1, Math.min(5, parseInt(rev.rating, 10) || 5));
+    const stars = '★'.repeat(starCount) + '☆'.repeat(5 - starCount);
+
+    item.innerHTML = `
+      <span class="t-badge-new"><i class="fas fa-check-circle"></i> Verified Review</span>
+      <div class="t-stars">${stars}</div>
+      <p class="t-text">"${escapeHtml(rev.comment)}"</p>
+      <div class="t-author">
+        <div class="t-avatar">${initial}</div>
+        <div>
+          <div class="t-name">${escapeHtml(rev.name)}</div>
+          <div class="t-project">${escapeHtml(rev.project || 'Residential Interior')}</div>
+        </div>
+      </div>
+    `;
+    return item;
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, m => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    }[m]));
+  }
+
+  function renderStoredReviews() {
+    const firstCard = document.querySelector('.testimonial-card');
+    if (!firstCard) return;
+    const stored = getStoredReviews();
+    stored.forEach(rev => {
+      const el = createReviewElement(rev);
+      firstCard.prepend(el);
+    });
+  }
+
+  // Load existing user-submitted reviews on page ready
+  renderStoredReviews();
+
+  if (openReviewModalBtn && reviewModal) {
+    openReviewModalBtn.addEventListener('click', () => {
+      reviewModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      if (reviewSuccessMsg) reviewSuccessMsg.style.display = 'none';
+    });
+  }
+
+  function closeReviewModal() {
+    if (reviewModal) {
+      reviewModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  if (closeReviewModalBtn) closeReviewModalBtn.addEventListener('click', closeReviewModal);
+
+  if (reviewModal) {
+    reviewModal.addEventListener('click', (e) => {
+      if (e.target === reviewModal) closeReviewModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && reviewModal.classList.contains('active')) {
+        closeReviewModal();
+      }
+    });
+  }
+
+  // Interactive 5-star selector
+  if (starRatingSelector) {
+    const stars = starRatingSelector.querySelectorAll('.star-opt');
+    function updateStarDisplay(val) {
+      stars.forEach(s => {
+        const sVal = parseInt(s.getAttribute('data-val'), 10);
+        if (sVal <= val) {
+          s.classList.add('active');
+        } else {
+          s.classList.remove('active');
+        }
+      });
+    }
+
+    stars.forEach(star => {
+      star.addEventListener('mouseenter', function() {
+        const val = parseInt(this.getAttribute('data-val'), 10);
+        stars.forEach(s => {
+          const sVal = parseInt(s.getAttribute('data-val'), 10);
+          if (sVal <= val) {
+            s.classList.add('hover');
+          } else {
+            s.classList.remove('hover');
+          }
+        });
+      });
+
+      star.addEventListener('mouseleave', function() {
+        stars.forEach(s => s.classList.remove('hover'));
+      });
+
+      star.addEventListener('click', function() {
+        const val = parseInt(this.getAttribute('data-val'), 10);
+        if (reviewRatingVal) reviewRatingVal.value = val;
+        updateStarDisplay(val);
+      });
+    });
+  }
+
+  // Handle Form Submission
+  if (customerReviewForm) {
+    customerReviewForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nameInput = document.getElementById('reviewAuthorName');
+      const projectInput = document.getElementById('reviewProjectType');
+      const commentInput = document.getElementById('reviewComment');
+      const rating = reviewRatingVal ? reviewRatingVal.value : 5;
+
+      const newReview = {
+        name: nameInput ? nameInput.value.trim() : 'Valued Client',
+        project: projectInput ? projectInput.value.trim() : 'Turnkey Home Interior',
+        rating: rating,
+        comment: commentInput ? commentInput.value.trim() : '',
+        timestamp: Date.now()
+      };
+
+      if (!newReview.name || !newReview.comment) return;
+
+      // Save to localStorage
+      const existing = getStoredReviews();
+      existing.unshift(newReview);
+      saveStoredReviews(existing);
+
+      // Dynamically add to website DOM
+      const firstCard = document.querySelector('.testimonial-card');
+      if (firstCard) {
+        const newEl = createReviewElement(newReview);
+        newEl.style.borderColor = 'var(--gold)';
+        firstCard.prepend(newEl);
+      }
+
+      // Show success feedback
+      if (reviewSuccessMsg) reviewSuccessMsg.style.display = 'block';
+      customerReviewForm.reset();
+      if (starRatingSelector) {
+        starRatingSelector.querySelectorAll('.star-opt').forEach(s => s.classList.add('active'));
+      }
+      if (reviewRatingVal) reviewRatingVal.value = '5';
+
+      // Auto close modal after 1.5s
+      setTimeout(() => {
+        closeReviewModal();
+        if (reviewSuccessMsg) reviewSuccessMsg.style.display = 'none';
+        const testSec = document.getElementById('testimonials');
+        if (testSec) {
+          testSec.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 1500);
+    });
+  }
+
 })();
