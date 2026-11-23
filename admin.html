@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Owner Portal — Showcase Management | SSS Interiors</title>
+  <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg" />
+  <link rel="apple-touch-icon" href="assets/images/logo.jpg" />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <style>
+    body {
+      background: #111111;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .admin-header {
+      background: #161616;
+      border-bottom: 1px solid var(--gold);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .admin-brand img {
+      width: 46px;
+      height: 46px;
+      border-radius: 6px;
+      border: 1px solid var(--gold);
+    }
+    .admin-brand h1 {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      color: #ffffff;
+      margin: 0;
+    }
+    .admin-brand span {
+      font-size: 0.75rem;
+      color: var(--gold);
+      display: block;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .admin-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .admin-container {
+      max-width: 1000px;
+      margin: 36px auto;
+      padding: 0 20px;
+      flex: 1;
+      width: 100%;
+    }
+    .admin-card {
+      background: #181818;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 30px;
+      margin-bottom: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .admin-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .admin-card-header h2 {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      color: #ffffff;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .admin-card-header h2 i {
+      color: var(--gold);
+    }
+    .admin-auth-container {
+      max-width: 420px;
+      margin: 60px auto;
+      text-align: center;
+      background: #181818;
+      border: 1px solid var(--gold);
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+    }
+    .admin-pin-field {
+      font-size: 1.6rem;
+      letter-spacing: 8px;
+      text-align: center;
+      padding: 12px;
+      width: 100%;
+      background: #111;
+      border: 1px solid var(--border-dark);
+      color: #fff;
+      border-radius: 6px;
+      margin: 20px 0;
+    }
+    .admin-pin-field:focus {
+      border-color: var(--gold);
+      outline: none;
+    }
+    .admin-footer {
+      background: #111111;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 20px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #737373;
+    }
+    .project-grid-preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .preview-card-item {
+      background: #111;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+    .preview-card-item img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      display: block;
+    }
+    .preview-card-details {
+      padding: 12px;
+    }
+    .preview-card-details h5 {
+      font-size: 0.9rem;
+      margin: 0 0 4px;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .preview-card-details span {
+      font-size: 0.72rem;
+      color: var(--gold);
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .btn-delete-card {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(220, 38, 38, 0.9);
+      color: #fff;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-delete-card:hover {
+      background: #b91c1c;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <header class="admin-header">
+    <a href="index.html" class="admin-brand">
+      <img src="assets/images/logo.jpg" alt="SSS Interiors" />
+      <div>
+        <h1>SSS Interiors</h1>
+        <span>Owner Portal &bull; Sri Sai Sahasra Interiors</span>
+      </div>
+    </a>
+    <div class="admin-nav-actions">
+      <a href="index.html" class="btn btn-outline-white btn-sm"><i class="fas fa-home"></i> View Website</a>
+      <button id="admin-logout-btn" class="btn btn-outline-white btn-sm" style="display:none;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+  </header>
+
+  <!-- AUTH SCREEN (When PIN is needed) -->
+  <div id="admin-auth-screen" class="admin-container">
+    <div class="admin-auth-container">
+      <div class="auth-icon"><i class="fas fa-shield-alt"></i></div>
+      <h2 style="font-family:var(--font-heading); font-size:1.6rem; margin-bottom:8px;">Owner Verification</h2>
+      <p style="color:#a3a3a3; font-size:0.88rem;">Enter your 4-digit Owner Passcode to access image showcase management.</p>
+      
+      <input type="password" id="admin-pin-field" class="admin-pin-field" maxlength="8" placeholder="••••" autocomplete="off" />
+      <button id="admin-unlock-btn" class="btn btn-gold btn-block" style="width:100%;"><i class="fas fa-unlock-alt"></i> Unlock Owner Mode</button>
+      <div id="admin-pin-error" style="color:#ef4444; font-size:0.82rem; margin-top:12px; display:none;">Incorrect passcode. Please check and try again.</div>
+      <div style="font-size:0.75rem; color:#737373; margin-top:20px;">
+        Default Passcode: <strong>7702</strong> (matching primary phone prefix)
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD SCREEN (When unlocked) -->
+  <main id="admin-dashboard-screen" class="admin-container" style="display:none;">
+    
+    <!-- CARD 1: ADD NEW IMAGE FORM -->
+    <div class="admin-card">
+      <div class="admin-card-header">
+        <h2><i class="fas fa-cloud-upload-alt"></i> Add New Image to Showcase</h2>
+        <span class="badge" style="background:rgba(200,169,106,0.15); color:var(--gold); border:1px solid var(--gold); padding:4px 10px; border-radius:4px; font-size:0.75rem;">
+          <i class="fas fa-user-check"></i> Logged in as Mahesh Shinde
+        </span>
+      </div>
+
+      <form id="admin-upload-form" class="owner-form">
+        <div class="form-grid-2">
+          <div class="owner-form-group">
+            <label for="adm-category">Space Category *</label>
+            <select id="adm-category" required>
+              <option value="living">Living Rooms &amp; Halls</option>
+              <option value="bedroom" selected>Bedrooms &amp; Master Suites</option>
+              <option value="kitchen">Modular Kitchens</option>
+              <option value="construction">Civil Construction (Ground to Handover)</option>
+              <option value="furniture">Custom Luxury Furniture</option>
+              <option value="commercial">Commercial &amp; Executive Suites</option>
+            </select>
+          </div>
+          <div class="owner-form-group">
+            <label for="adm-location">Sub-category / Location *</label>
+            <input type="text" id="adm-location" placeholder="e.g. Master Bedroom • Jubilee Hills" required />
+          </div>
+        </div>
+
+        <div class="owner-form-group">
+          <label for="adm-title">Project Title / Description *</label>
+          <input type="text" id="adm-title" placeholder="e.g. Royal Master Bedroom with Fluted Wood Backlit Paneling" required />
+        </div>
+
+        <div class="owner-form-group">
+          <label>Select Project Image *</label>
+          <div class="image-input-choice">
+            <label class="upload-dropzone" for="adm-file-input">
+              <i class="fas fa-camera"></i>
+              <span><strong>Choose Photo from Device / Gallery</strong> or Take Photo</span>
+              <small>Automatically compressed for ultra-fast loading on mobile and desktop</small>
+              <input type="file" id="adm-file-input" accept="image/*" />
+            </label>
+            <div class="or-divider"><span>OR PASTE IMAGE URL</span></div>
+            <input type="url" id="adm-url-input" placeholder="https://example.com/your-image.jpg" />
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div id="adm-preview-wrap" class="owner-image-preview" style="display:none;">
+          <label>Selected Image Preview:</label>
+          <div class="preview-box">
+            <img id="adm-preview-img" src="" alt="Preview" />
+            <button type="button" id="adm-clear-img" class="btn-clear-preview">&times; Remove</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-gold" style="width:100%; margin-top:10px; padding:14px;">
+          <i class="fas fa-plus-circle"></i> Add Image to Showcase Instantly
+        </button>
+      </form>
+    </div>
+
+    <!-- CARD 2: MANAGE UPLOADED IMAGES -->
+    <div class="admin-card">
+      <div class="admin-card-header">
+        <h2><i class="fas fa-images"></i> Custom Added Images (<span id="adm-custom-count">0</span>)</h2>
+        <div style="display:flex; gap:8px;">
+          <button id="adm-whatsapp-sync" class="btn btn-whatsapp btn-sm"><i class="fab fa-whatsapp"></i> Notify Web Developer</button>
+          <button id="adm-backup-download" class="btn btn-outline-white btn-sm"><i class="fas fa-download"></i> Backup JSON</button>
+        </div>
+      </div>
+      <p style="font-size:0.85rem; color:#a3a3a3; margin-bottom:16px;">
+        These are the projects you have uploaded. They automatically appear live on your website in the corresponding category. You can delete any entry whenever you want.
+      </p>
+      
+      <div id="adm-custom-grid" class="project-grid-preview">
+        <!-- Dynamically rendered -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="admin-footer">
+    <span>&copy; 2024 SSS Interiors (Sri Sai Sahasra Interiors). Secure Owner Portal.</span>
+  </footer>
+
+  <!-- Toast -->
+  <div id="sss-toast" class="sss-toast"></div>
+
+  <!-- SCRIPTS -->
+  <script src="config.js"></script>
+  <script src="assets/js/projects-data.js"></script>
+
+  <script>
+    (function() {
+      const authScreen = document.getElementById('admin-auth-screen');
+      const dashScreen = document.getElementById('admin-dashboard-screen');
+      const pinField = document.getElementById('admin-pin-field');
+      const unlockBtn = document.getElementById('admin-unlock-btn');
+      const pinError = document.getElementById('admin-pin-error');
+      const logoutBtn = document.getElementById('admin-logout-btn');
+
+      const fileInput = document.getElementById('adm-file-input');
+      const urlInput = document.getElementById('adm-url-input');
+      const previewWrap = document.getElementById('adm-preview-wrap');
+      const previewImg = document.getElementById('adm-preview-img');
+      const clearImgBtn = document.getElementById('adm-clear-img');
+      const uploadForm = document.getElementById('admin-upload-form');
+      const customGrid = document.getElementById('adm-custom-grid');
+      const countSpan = document.getElementById('adm-custom-count');
+
+      let currentImageData = '';
+
+      function isAuthed() {
+        return sessionStorage.getItem('SSS_OWNER_AUTHENTICATED') === 'true';
+      }
+
+      function updateView() {
+        if (isAuthed()) {
+          authScreen.style.display = 'none';
+          dashScreen.style.display = 'block';
+          logoutBtn.style.display = 'inline-flex';
+          renderCustomGrid();
+        } else {
+          authScreen.style.display = 'block';
+          dashScreen.style.display = 'none';
+          logoutBtn.style.display = 'none';
+          pinField.value = '';
+          pinField.focus();
+        }
+      }
+
+      function unlock() {
+        const entered = pinField.value.trim();
+        const expected = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.ownerPasscode) ? String(SITE_CONFIG.ownerPasscode) : '7702';
+        if (entered === expected) {
+          sessionStorage.setItem('SSS_OWNER_AUTHENTICATED', 'true');
+          pinError.style.display = 'none';
+          updateView();
+          showAdminToast('Owner mode unlocked!');
+        } else {
+          pinError.style.display = 'block';
+          pinField.focus();
+        }
+      }
+
+      unlockBtn.addEventListener('click', unlock);
+      pinField.addEventListener('keydown', (e) => { if (e.key === 'Enter') unlock(); });
+
+      logoutBtn.addEventListener('click', () => {
+        sessionStorage.removeItem('SSS_OWNER_AUTHENTICATED');
+        updateView();
+        showAdminToast('Logged out of Owner Mode.');
+      });
+
+      // File upload with auto-compression
+      fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = new Image();
+          img.onload = function() {
+            const maxW = 1280;
+            const maxH = 960;
+            let w = img.width;
+            let h = img.height;
+            if (w > maxW || h > maxH) {
+              if (w / h > maxW / maxH) {
+                h = Math.round((h * maxW) / w);
+                w = maxW;
+              } else {
+                w = Math.round((w * maxH) / h);
+                h = maxH;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            currentImageData = canvas.toDataURL('image/jpeg', 0.82);
+            previewImg.src = currentImageData;
+            previewWrap.style.display = 'block';
+            urlInput.value = '';
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      urlInput.addEventListener('input', function() {
+        const v = this.value.trim();
+        if (v) {
+          currentImageData = v;
+          previewImg.src = v;
+          previewWrap.style.display = 'block';
+        }
+      });
+
+      clearImgBtn.addEventListener('click', () => {
+        currentImageData = '';
+        previewImg.src = '';
+        previewWrap.style.display = 'none';
+        fileInput.value = '';
+        urlInput.value = '';
+      });
+
+      // Form submit
+      uploadForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (!currentImageData) {
+          alert('Please choose an image file or enter an image URL.');
+          return;
+        }
+
+        const category = document.getElementById('adm-category').value;
+        const title = document.getElementById('adm-title').value.trim();
+        const location = document.getElementById('adm-location').value.trim();
+
+        const newProject = {
+          id: 'custom-' + Date.now(),
+          category: category,
+          title: title,
+          sub: location,
+          image: currentImageData,
+          isCustom: true,
+          createdAt: new Date().toISOString()
+        };
+
+        let list = [];
+        try {
+          const stored = localStorage.getItem('SSS_CUSTOM_PROJECTS');
+          list = stored ? JSON.parse(stored) : [];
+        } catch (err) { list = []; }
+
+        list.unshift(newProject);
+        localStorage.setItem('SSS_CUSTOM_PROJECTS', JSON.stringify(list));
+
+        uploadForm.reset();
+        currentImageData = '';
+        previewWrap.style.display = 'none';
+
+        renderCustomGrid();
+        showAdminToast(`Successfully published "${title}" to ${category.toUpperCase()} showcase!`);
+      });
+
+      function renderCustomGrid() {
+        let list = [];
+        try {
+          const stored = localStorage.getItem('SSS_CUSTOM_PROJECTS');
+          list = stored ? JSON.parse(stored) : [];
+        } catch (err) { list = []; }
+
+        countSpan.textContent = list.length;
+
+        if (list.length === 0) {
+          customGrid.innerHTML = `
+            <div style="grid-column:1/-1; text-align:center; padding:32px 10px; color:#777;">
+              <i class="fas fa-images" style="font-size:2.2rem; color:var(--gold); margin-bottom:10px; display:block;"></i>
+              <p>No custom photos added yet. Use the form above to add your first project photo!</p>
+            </div>
+          `;
+          return;
+        }
+
+        customGrid.innerHTML = list.map(p => `
+          <div class="preview-card-item">
+            <button class="btn-delete-card" data-id="${p.id}" title="Delete image">&times;</button>
+            <img src="${p.image}" alt="${p.title}" />
+            <div class="preview-card-details">
+              <h5>${p.title}</h5>
+              <span>${p.category.toUpperCase()} &bull; ${p.sub || ''}</span>
+            </div>
+          </div>
+        `).join('');
+
+        customGrid.querySelectorAll('.btn-delete-card').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            if (confirm('Are you sure you want to remove this project?')) {
+              let updated = list.filter(item => item.id !== id);
+              localStorage.setItem('SSS_CUSTOM_PROJECTS', JSON.stringify(updated));
+              renderCustomGrid();
+              showAdminToast('Project removed.');
+            }
+          });
+        });
+      }
+
+      // WhatsApp notify
+      document.getElementById('adm-whatsapp-sync').addEventListener('click', function() {
+        let list = [];
+        try {
+          const stored = localStorage.getItem('SSS_CUSTOM_PROJECTS');
+          list = stored ? JSON.parse(stored) : [];
+        } catch (err) { list = []; }
+        const dest = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.developerWhatsApp) ? SITE_CONFIG.developerWhatsApp : '917702066446';
+        const msg = `Hi Nagendra, this is Mahesh from SSS Interiors. I have added ${list.length} project photos through the Owner Portal. Please review and sync to our live repository.`;
+        window.open(`https://wa.me/${dest}?text=${encodeURIComponent(msg)}`, '_blank');
+      });
+
+      // Backup JSON download
+      document.getElementById('adm-backup-download').addEventListener('click', function() {
+        let list = [];
+        try {
+          const stored = localStorage.getItem('SSS_CUSTOM_PROJECTS');
+          list = stored ? JSON.parse(stored) : [];
+        } catch (err) { list = []; }
+        const json = JSON.stringify(list, null, 2);
+        const blob = new Blob([json], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `sss-interiors-custom-projects-${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+      });
+
+      function showAdminToast(msg) {
+        const t = document.getElementById('sss-toast');
+        if (!t) return;
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3500);
+      }
+
+      updateView();
+    })();
+  </script>
+</body>
+</html>

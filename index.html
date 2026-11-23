@@ -374,7 +374,7 @@
           <a href="https://wa.me/917702066446?text=Hi%20Mahesh%20Shinde,%20I%20am%20interested%20in%20Complete%20Turnkey%20Civil%20Construction%20from%20plot%20to%20handover." target="_blank" class="cs-item" title="Civil Construction">
             <div class="cs-circle">
               <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=300&h=300&fit=crop&q=80" 
-                   onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1541888946425-d0fbb186156a?w=300&h=300&fit=crop&q=80';" 
+                   onerror="this.onerror=null; this.src='assets/images/projects/construction/civil-framing-01.jpg';" 
                    alt="Civil Construction" loading="lazy" />
             </div>
             <span class="cs-label">Civil Construction</span>
@@ -504,137 +504,101 @@
         <p class="sec-sub">Browse our completed projects organized by space — from signature living halls and tranquil master bedrooms to custom center tables, chef kitchens, and complete home construction.</p>
       </div>
 
-      <!-- Filter Buttons -->
-      <div class="portfolio-filter" data-reveal>
-        <button class="pf-btn active" data-filter="all">All Showcase</button>
-        <button class="pf-btn" data-filter="living">Living Rooms</button>
-        <button class="pf-btn" data-filter="bedroom">Bedrooms</button>
-        <button class="pf-btn" data-filter="furniture">Custom Furniture</button>
-        <button class="pf-btn" data-filter="kitchen">Kitchens</button>
-        <button class="pf-btn" data-filter="construction">Civil Construction</button>
-        <button class="pf-btn" data-filter="commercial">Commercial</button>
+            <!-- Filter & View Mode Toolbar -->
+      <div class="portfolio-toolbar" data-reveal>
+        <div class="portfolio-filter">
+          <button class="pf-btn active" data-filter="all">All Showcase</button>
+          <button class="pf-btn" data-filter="living">Living Rooms</button>
+          <button class="pf-btn" data-filter="bedroom">Bedrooms</button>
+          <button class="pf-btn" data-filter="furniture">Custom Furniture</button>
+          <button class="pf-btn" data-filter="kitchen">Kitchens</button>
+          <button class="pf-btn" data-filter="construction">Civil Construction</button>
+          <button class="pf-btn" data-filter="commercial">Commercial</button>
+        </div>
+
+        <div class="showcase-view-toggle">
+          <button id="view-mode-grid" class="view-toggle-btn active" title="Grid View"><i class="fas fa-th-large"></i> Grid</button>
+          <button id="view-mode-slider" class="view-toggle-btn" title="Horizontal Carousel Slider"><i class="fas fa-sliders-h"></i> Carousel</button>
+        </div>
       </div>
 
-      <!-- Uniform 3-Column Grid Organized Sequentially by Space -->
-      <div class="portfolio-grid">
+      <!-- Curated Showcase Container (Grid / Carousel) -->
+      <div class="portfolio-grid-wrap" id="portfolio-grid-wrap">
+        <button class="showcase-carousel-arrow prev" id="carousel-prev" aria-label="Previous Slide"><i class="fas fa-chevron-left"></i></button>
 
-        <!-- ===== CLUSTER 1: LIVING ROOMS & HALLS ===== -->
-        <div class="p-card" data-category="living" data-reveal>
-          <img src="assets/images/projects/living-room/living-room-10.jpg" alt="Signature Hall with 3D Textured Panels & Curved Sofas" loading="lazy" />
-          <div class="p-card-info">
-            <span class="p-card-cat">Living Room &amp; Hall</span>
-            <h4 class="p-card-title">3D Wave Wall &amp; Curved Sectional Hall</h4>
-            <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
+        <div class="portfolio-grid">
+          <!-- 1: Living Room Highlight -->
+          <div class="p-card" data-category="living" data-reveal>
+            <img src="assets/images/projects/living-room/living-room-10.jpg" alt="Signature Hall with 3D Textured Panels & Curved Sofas" loading="lazy" />
+            <div class="p-card-info">
+              <span class="p-card-cat">Living Room &bull; Hall</span>
+              <h4 class="p-card-title">3D Wave Wall &amp; Curved Sectional Hall</h4>
+              <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
+            </div>
+          </div>
+
+          <!-- 2: Master Bedroom Highlight -->
+          <div class="p-card" data-category="bedroom" data-reveal data-delay="100">
+            <img src="assets/images/projects/bedroom/bedroom-suite-01.jpg" alt="Luxury Master Suite with Fluted Wood Paneling" loading="lazy" />
+            <div class="p-card-info">
+              <span class="p-card-cat">Bedroom &bull; Master Suite</span>
+              <h4 class="p-card-title">Luxury Master Suite &amp; Fluted Paneling</h4>
+              <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
+            </div>
+          </div>
+
+          <!-- 3: Modular Kitchen Highlight -->
+          <div class="p-card" data-category="kitchen" data-reveal data-delay="200">
+            <img src="assets/images/projects/kitchen/kitchen-island-01.jpg" alt="Statuario Quartz Island Gourmet Kitchen" loading="lazy" />
+            <div class="p-card-info">
+              <span class="p-card-cat">Kitchen &bull; Island Modular</span>
+              <h4 class="p-card-title">Statuario Quartz Island Gourmet Kitchen</h4>
+              <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
+            </div>
+          </div>
+
+          <!-- 4: Custom Furniture Highlight -->
+          <div class="p-card" data-category="furniture" data-reveal>
+            <img src="assets/images/projects/furniture/coffee-table-02.jpg" alt="Statuario Marble & Gold S-Curve Coffee Table" loading="lazy" />
+            <div class="p-card-info">
+              <span class="p-card-cat">Custom Furniture &bull; Center Tables</span>
+              <h4 class="p-card-title">Marble Top Gold S-Curve Coffee Table</h4>
+              <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
+            </div>
+          </div>
+
+          <!-- 5: Civil Construction Highlight -->
+          <div class="p-card" data-category="construction" data-reveal data-delay="100">
+            <img src="assets/images/projects/construction/civil-framing-01.jpg" alt="Independent Villa Structural Framing & Foundation" loading="lazy" />
+            <div class="p-card-info">
+              <span class="p-card-cat">Civil Construction &bull; RCC Structure</span>
+              <h4 class="p-card-title">Independent Villa Structural Framing</h4>
+              <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Details</span>
+            </div>
+          </div>
+
+          <!-- 6: Commercial Office Highlight -->
+          <div class="p-card" data-category="commercial" data-reveal data-delay="200">
+            <img src="assets/images/projects/commercial/boardroom-01.jpg" alt="Executive Corporate Boardroom" loading="lazy" />
+            <div class="p-card-info">
+              <span class="p-card-cat">Commercial &bull; Office Interior</span>
+              <h4 class="p-card-title">Executive Boardroom &amp; Acoustic Wall</h4>
+              <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
+            </div>
           </div>
         </div>
 
-        <div class="p-card" data-category="living" data-reveal data-delay="100">
-          <img src="assets/images/projects/living-room/living-room-04.jpg" alt="Tan Leather Sectional Sofa & Wood Wall" loading="lazy" />
-          <div class="p-card-info">
-            <span class="p-card-cat">Living Room &bull; Sectionals</span>
-            <h4 class="p-card-title">Tan Leather L-Sofa &amp; Geometric Wall</h4>
-            <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
-          </div>
-        </div>
-
-        <div class="p-card" data-category="living" data-reveal data-delay="200">
-          <img src="assets/images/projects/living-room/living-room-01.jpg" alt="Modern Living Room with Wood Panel Backdrop" loading="lazy" />
-          <div class="p-card-info">
-            <span class="p-card-cat">Living Room &bull; Formal Hall</span>
-            <h4 class="p-card-title">Modern Sofa with Backlit Wood Panel</h4>
-            <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
-          </div>
-        </div>
-
-        <!-- ===== CLUSTER 2: BEDROOMS & PRIVATE SUITES ===== -->
-        <div class="p-card" data-category="bedroom" data-reveal>
-          <img src="assets/images/projects/bedroom/bedroom-corner-01.jpg" alt="Master Bedroom Cane Bedside and Velvet Armchair" loading="lazy" />
-          <div class="p-card-info">
-            <span class="p-card-cat">Bedroom &bull; Master Suite</span>
-            <h4 class="p-card-title">Cane Bedside &amp; Reading Sanctuary</h4>
-            <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
-          </div>
-        </div>
-
-        <div class="p-card" data-category="bedroom" data-reveal data-delay="100">
-          <img src="assets/images/projects/bedroom/accent-lounge-01.jpg" alt="Tufted Wingback Accent Lounge Chair" loading="lazy" />
-          <div class="p-card-info">
-            <span class="p-card-cat">Bedroom &bull; Lounge Seating</span>
-            <h4 class="p-card-title">Tufted Wingback Chair &amp; Ottoman</h4>
-            <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
-          </div>
-        </div>
-
-        <div class="p-card" data-category="bedroom" data-reveal data-delay="200">
-          <img src="assets/images/projects/living-room/living-room-06.jpg" alt="Bespoke Ambient Bedside & Wall Paneling" loading="lazy" />
-          <div class="p-card-info">
-            <span class="p-card-cat">Bedroom &bull; Accent Wall</span>
-            <h4 class="p-card-title">Warm Ambient Paneling &amp; Nightstand</h4>
-            <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
-          </div>
-        </div>
-
-        <!-- ===== CLUSTER 3: CUSTOM LUXURY FURNITURE ===== -->
-        <div class="p-card" data-category="furniture" data-reveal>
-          <img src="assets/images/projects/furniture/coffee-table-02.jpg" alt="Statuario Marble & Gold S-Curve Coffee Table" loading="lazy" />
-          <div class="p-card-info">
-            <span class="p-card-cat">Custom Furniture &bull; Center Tables</span>
-            <h4 class="p-card-title">Marble Top Gold S-Curve Coffee Table</h4>
-            <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
-          </div>
-        </div>
-
-        <div class="p-card" data-category="furniture" data-reveal data-delay="100">
-          <img src="assets/images/projects/furniture/coffee-table-05.jpg" alt="Luxury Marble & Sculptural Gold Ball Base Table" loading="lazy" />
-          <div class="p-card-info">
-            <span class="p-card-cat">Custom Furniture &bull; Center Tables</span>
-            <h4 class="p-card-title">Marble Top Sculptural Gold Sphere Table</h4>
-            <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
-          </div>
-        </div>
-
-        <div class="p-card" data-category="furniture" data-reveal data-delay="200">
-          <img src="assets/images/projects/furniture/coffee-table-01.jpg" alt="Fluted Oval Center Table with Brushed Brass" loading="lazy" />
-          <div class="p-card-info">
-            <span class="p-card-cat">Custom Furniture &bull; Center Tables</span>
-            <h4 class="p-card-title">Fluted Oval Coffee Table with Brass Accent</h4>
-            <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
-          </div>
-        </div>
-
-        <!-- ===== CLUSTER 4: MODULAR KITCHENS ===== -->
-        <div class="p-card" data-category="kitchen" data-reveal>
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80" alt="Island Modular Kitchen" loading="lazy" />
-          <div class="p-card-info">
-            <span class="p-card-cat">Kitchen &bull; Modular Showcase</span>
-            <h4 class="p-card-title">Statuario Island Gourmet Kitchen</h4>
-            <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
-          </div>
-        </div>
-
-        <!-- ===== CLUSTER 5: CIVIL CONSTRUCTION (Beginning to End Stage) ===== -->
-        <div class="p-card" data-category="construction" data-reveal data-delay="100">
-          <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186156a?w=800&q=80" alt="Turnkey Villa Construction Ground to Roof" loading="lazy" />
-          <div class="p-card-info">
-            <span class="p-card-cat">Civil Construction &bull; Turnkey Villa</span>
-            <h4 class="p-card-title">Independent Villa Structural Framing</h4>
-            <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Details</span>
-          </div>
-        </div>
-
-        <!-- ===== CLUSTER 6: COMMERCIAL & CORPORATE ===== -->
-        <div class="p-card" data-category="commercial" data-reveal data-delay="200">
-          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80" alt="Executive Corporate Boardroom" loading="lazy" />
-          <div class="p-card-info">
-            <span class="p-card-cat">Commercial &bull; Office Interior</span>
-            <h4 class="p-card-title">Executive Boardroom &amp; Acoustic Wall</h4>
-            <span class="p-card-view"><i class="fas fa-expand-alt"></i> View Full Space</span>
-          </div>
-        </div>
-
+        <button class="showcase-carousel-arrow next" id="carousel-next" aria-label="Next Slide"><i class="fas fa-chevron-right"></i></button>
       </div>
 
-      <div style="display:flex;justify-content:center;gap:16px;margin-top:60px;" data-reveal>
+      <!-- Expand / Collapse All Projects Button -->
+      <div class="showcase-expand-wrap" id="showcase-expand-wrap">
+        <button id="btn-toggle-showcase" class="btn-toggle-showcase" aria-label="Toggle showcase expansion">
+          <i class="fas fa-th-large"></i> View All Projects (20+) <i class="fas fa-chevron-down"></i>
+        </button>
+      </div>
+
+      <div style="display:flex;justify-content:center;gap:16px;margin-top:32px;" data-reveal>
         <a href="portfolio.html" class="btn btn-gold"><i class="fas fa-th-large"></i> View Complete Portfolio</a>
         <a href="#" class="btn btn-outline-white cfg-whatsapp-link" target="_blank" data-msg="Hi Mahesh Shinde, I would like to see more portfolio photos for residential projects."><i class="fab fa-whatsapp"></i> WhatsApp Portfolio</a>
       </div>
@@ -1110,8 +1074,11 @@
     </div>
 
     <div class="footer-bottom">
-      <span>&copy; 2024 SSS Interiors (Sri Sai Sahasra Interiors). All Rights Reserved.</span>
-      <span>Head Office: Chintal | Branches: Madhapur &bull; Kukatpally &bull; Hitech City (HYD- TG)</span>
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; width:100%;">
+        <span>&copy; 2024 SSS Interiors (Sri Sai Sahasra Interiors). All Rights Reserved.</span>
+        <span>Head Office: Chintal | Branches: Madhapur &bull; Kukatpally &bull; Hitech City (HYD- TG)</span>
+        <a href="#owner" id="owner-login-btn" class="owner-access-link" title="Owner Access Portal"><i class="fas fa-lock"></i> Owner Portal</a>
+      </div>
     </div>
   </footer>
 
@@ -1131,6 +1098,7 @@
 
   <!-- CONFIG SCRIPT FIRST, THEN MAIN JS -->
   <script src="config.js"></script>
+  <script src="assets/js/projects-data.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

@@ -287,9 +287,9 @@
 
   /* ------------------------------------------------------------
      8. PORTFOLIO FILTER
+     Delegated and synced with projects-data.js
   ------------------------------------------------------------ */
   const filterBtns = document.querySelectorAll('.pf-btn');
-  const portfolioCards = document.querySelectorAll('.p-card, .pp-card');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', function () {
@@ -297,7 +297,12 @@
       this.classList.add('active');
       const cat = this.getAttribute('data-filter');
 
-      portfolioCards.forEach(card => {
+      if (typeof window.SSS_SHOWCASE !== 'undefined') {
+        // Handled reactively by SSS_SHOWCASE
+        return;
+      }
+
+      document.querySelectorAll('.p-card, .pp-card').forEach(card => {
         const itemCat = card.getAttribute('data-category');
         if (cat === 'all' || itemCat === cat) {
           card.classList.remove('hidden');
@@ -311,22 +316,27 @@
   });
 
   /* ------------------------------------------------------------
-     9. LIGHTBOX
+     9. LIGHTBOX (Event Delegation for static + dynamic cards)
   ------------------------------------------------------------ */
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
   const lightboxClose = document.getElementById('lightbox-close');
 
-  document.querySelectorAll('.p-card, .pp-card').forEach(card => {
-    card.addEventListener('click', function () {
-      const img = this.querySelector('img');
+  document.addEventListener('click', function (e) {
+    if (typeof window.SSS_SHOWCASE !== 'undefined') {
+      // SSS_SHOWCASE handles lightbox with custom captions & delete protection
+      return;
+    }
+    const card = e.target.closest('.p-card, .pp-card');
+    if (card && !e.target.closest('.p-delete-btn')) {
+      const img = card.querySelector('img');
       if (img && lightbox && lightboxImg) {
         lightboxImg.src = img.src;
         lightboxImg.alt = img.alt || 'Interior Design View';
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
       }
-    });
+    }
   });
 
   function closeLightbox() {

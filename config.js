@@ -68,7 +68,11 @@ const SITE_CONFIG = {
     { number: 15,   suffix: "+", label: "Years Experience" },
     { number: 1000, suffix: "+", label: "Projects Completed" },
     { number: 100,  suffix: "%", label: "Client Satisfaction" }
-  ]
+  ],
+
+  /* ── OWNER / ADMIN ACCESS ───────────────────────── */
+  ownerPasscode:     "7702", // Default 4-digit PIN for Owner Access (matches 77020 66446)
+  developerWhatsApp: "917702066446" // Destination for quick project sync notifications
 };
 
 /* Make config available globally */
