@@ -3045,3 +3045,68 @@ footer {
     padding: 8px 18px;
   }
 }
+
+/* ============================================================
+   OWNER / ADMIN DIRECT ACCESS LINKS STYLING
+   ============================================================ */
+.topbar-admin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--gold) !important;
+  font-size: 0.72rem !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: rgba(200, 169, 106, 0.12);
+  border: 1px solid rgba(200, 169, 106, 0.35);
+  margin-left: 4px;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+.topbar-admin-link:hover {
+  background: var(--gold);
+  color: #121212 !important;
+  border-color: var(--gold);
+  box-shadow: 0 2px 8px rgba(200, 169, 106, 0.4);
+}
+
+.nav-menu .nav-admin-link {
+  color: var(--gold) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.nav-menu .nav-admin-link:hover {
+  color: #ffffff !important;
+}
+
+.view-toggle-btn.view-toggle-admin {
+  background: rgba(200, 169, 106, 0.15);
+  border: 1px solid rgba(200, 169, 106, 0.4);
+  color: var(--gold);
+  text-decoration: none;
+}
+.view-toggle-btn.view-toggle-admin:hover {
+  background: var(--gold);
+  color: #121212;
+}
+
+.footer-admin-link {
+  color: var(--gold);
+  font-size: 0.78rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(200, 169, 106, 0.08);
+  border: 1px solid rgba(200, 169, 106, 0.3);
+  transition: all 0.25s ease;
+}
+.footer-admin-link:hover {
+  background: var(--gold);
+  color: #121212;
+}
