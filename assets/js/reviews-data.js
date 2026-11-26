@@ -145,6 +145,9 @@
   function saveAllReviews(reviews) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
+      if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
+        window.dispatchEvent(new CustomEvent('sss-reviews-updated', { detail: { reviews } }));
+      }
     } catch (e) {
       console.warn('LocalStorage error while saving reviews:', e);
     }

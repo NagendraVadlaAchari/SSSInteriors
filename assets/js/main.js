@@ -761,6 +761,17 @@
   // Initial load
   renderCustomerReviews();
 
+  // Real-time synchronization for customer reviews
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'sss_customer_reviews') {
+      renderCustomerReviews(currentActiveReviewFilter);
+    }
+  });
+
+  window.addEventListener('sss-reviews-updated', function() {
+    renderCustomerReviews(currentActiveReviewFilter);
+  });
+
   // Filter Buttons on reviews.html if present
   const reviewFilterBtns = document.querySelectorAll('.rf-btn');
   if (reviewFilterBtns.length > 0) {

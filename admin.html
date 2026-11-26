@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -712,7 +712,7 @@
         <!-- Add Review Form (Collapsible) -->
         <div id="adm-add-rev-form-wrap" style="display:none; background:#141414; border:1px solid var(--gold); border-radius:8px; padding:20px; margin-bottom:24px;">
           <h4 style="color:#ffffff; margin:0 0 14px; font-size:1.1rem; display:flex; align-items:center; justify-content:space-between;">
-            <span><i class="fas fa-user-edit" style="color:var(--gold);"></i> Add Client Review (Pre-Approved Live)</span>
+            <span><i class="fas fa-user-edit" style="color:var(--gold);"></i> Add Customer Review</span>
             <button type="button" id="adm-close-add-rev-btn" style="background:none; border:none; color:#a3a3a3; font-size:1.2rem; cursor:pointer;">&times;</button>
           </h4>
           <form id="adm-add-rev-form" class="owner-form">
@@ -743,10 +743,18 @@
               </div>
             </div>
             <div class="owner-form-group">
+              <label for="adm-rev-status" style="color:#fbbf24; font-weight:600;"><i class="fas fa-shield-alt"></i> Moderation Status *</label>
+              <select id="adm-rev-status" style="background:#1f180e; border:1px solid #d97706; color:#fbbf24; font-weight:600; padding:10px; border-radius:4px; width:100%;" required>
+                <option value="pending" selected>⏳ Pending Approval (Requires Owner to Review &amp; Approve with Accept Button)</option>
+                <option value="approved">✓ Approved Immediately (Publish Directly Live to Website)</option>
+              </select>
+              <small style="color:#a3a3a3; font-size:0.75rem; margin-top:4px; display:block;">Select <strong>Pending Approval</strong> to test or see the review in the Pending list with the "Accept" and "Delete" buttons.</small>
+            </div>
+            <div class="owner-form-group">
               <label for="adm-rev-comment">Review Feedback / Experience *</label>
               <textarea id="adm-rev-comment" rows="3" placeholder="Enter detailed client endorsement..." required></textarea>
             </div>
-            <button type="submit" class="btn btn-gold" style="width:100%; margin-top:10px;"><i class="fas fa-check-circle"></i> Save &amp; Publish Review to Website</button>
+            <button type="submit" class="btn btn-gold" style="width:100%; margin-top:10px;"><i class="fas fa-plus-circle"></i> Save Review</button>
           </form>
         </div>
 
@@ -803,7 +811,24 @@
           logoutBtn.style.display = 'inline-flex';
           renderCustomGrid();
           renderAdminReviews();
-          initPortalTabFromHash();
+
+          // Auto-prioritize Customer Reviews if there are pending reviews awaiting approval
+          const pendingReviews = (window.SSS_REVIEWS && typeof window.SSS_REVIEWS.getPendingReviews === 'function')
+            ? window.SSS_REVIEWS.getPendingReviews() : [];
+          if (pendingReviews.length > 0) {
+            setPortalTab('reviews');
+            currentRevFilter = 'pending';
+            document.querySelectorAll('.adm-rev-filter').forEach(b => {
+              if (b.getAttribute('data-filter') === 'pending') {
+                b.classList.add('active');
+              } else {
+                b.classList.remove('active');
+              }
+            });
+            renderAdminReviews();
+          } else {
+            initPortalTabFromHash();
+          }
         } else {
           authScreen.style.display = 'block';
           dashScreen.style.display = 'none';
@@ -1138,8 +1163,20 @@
               <i class="fas fa-check-double" style="font-size:2.2rem; color:var(--gold); margin-bottom:12px; display:block;"></i>
               <h5 style="color:#ffffff; font-size:1.05rem; margin-bottom:6px;">${emptyTitle}</h5>
               <p style="font-size:0.85rem; max-width:400px; margin:0 auto;">${emptySub}</p>
+              ${currentRevFilter === 'pending' ? '<button type="button" class="btn btn-gold btn-sm" id="btn-quick-add-rev" style="margin-top:16px;"><i class="fas fa-plus-circle"></i> Add Customer Review for Approval</button>' : ''}
             </div>
           `;
+          const quickAddBtn = document.getElementById('btn-quick-add-rev');
+          if (quickAddBtn) {
+            quickAddBtn.addEventListener('click', () => {
+              if (admAddRevFormWrap) {
+                admAddRevFormWrap.style.display = 'block';
+                const statusSelect = document.getElementById('adm-rev-status');
+                if (statusSelect) statusSelect.value = 'pending';
+                document.getElementById('adm-rev-author').focus();
+              }
+            });
+          }
           return;
         }
 
@@ -1321,6 +1358,8 @@
           const rating = parseInt(document.getElementById('adm-rev-rating').value, 10) || 5;
           const date = document.getElementById('adm-rev-date').value.trim() || new Date().toLocaleDateString('en-IN', { month: 'short', year: 'numeric' });
           const comment = document.getElementById('adm-rev-comment').value.trim();
+          const statusVal = document.getElementById('adm-rev-status') ? document.getElementById('adm-rev-status').value : 'pending';
+          const isApproved = (statusVal === 'approved');
 
           if (!author || !comment) {
             alert('Please fill out client name and feedback comment.');
@@ -1335,17 +1374,31 @@
               date: date,
               comment: comment,
               timestamp: Date.now()
-            }, true); // pre-approved live
+            }, isApproved);
 
             admAddRevForm.reset();
             admAddRevFormWrap.style.display = 'none';
-            // Switch to approved tab to see it
-            document.querySelectorAll('.adm-rev-filter').forEach(b => b.classList.remove('active'));
-            const targetBtn = document.querySelector('.adm-rev-filter[data-filter="approved"]');
-            if (targetBtn) targetBtn.classList.add('active');
-            currentRevFilter = 'approved';
+
+            // Switch to the matching tab so owner sees the added review right away
+            const targetFilter = isApproved ? 'approved' : 'pending';
+            currentRevFilter = targetFilter;
+            document.querySelectorAll('.adm-rev-filter').forEach(b => {
+              if (b.getAttribute('data-filter') === targetFilter) {
+                b.classList.add('active');
+              } else {
+                b.classList.remove('active');
+              }
+            });
+
+            // Ensure Customer Reviews section is displayed
+            setPortalTab('reviews');
             renderAdminReviews();
-            showAdminToast(`Successfully published review by "${author}" live!`);
+
+            if (isApproved) {
+              showAdminToast(`Successfully published review by "${author}" live to website!`);
+            } else {
+              showAdminToast(`Review by "${author}" added to Pending Approval! You can now review and click "Accept Review" to approve it.`);
+            }
           }
         });
       }
@@ -1380,6 +1433,35 @@
         t.classList.add('show');
         setTimeout(() => t.classList.remove('show'), 3500);
       }
+
+      // Real-time synchronization across browser tabs & windows
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'sss_customer_reviews' || e.key === 'SSS_CUSTOM_PROJECTS') {
+          if (isAuthed()) {
+            renderAdminReviews();
+            renderCustomGrid();
+          }
+        }
+      });
+
+      window.addEventListener('sss-reviews-updated', function() {
+        if (isAuthed()) {
+          renderAdminReviews();
+        }
+      });
+
+      document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible' && isAuthed()) {
+          renderAdminReviews();
+          renderCustomGrid();
+        }
+      });
+
+      window.addEventListener('focus', function() {
+        if (isAuthed()) {
+          renderAdminReviews();
+        }
+      });
 
       updateView();
     })();
