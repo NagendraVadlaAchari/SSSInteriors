@@ -828,21 +828,17 @@
           renderCustomGrid();
           renderAdminReviews();
 
-          // Auto-prioritize Customer Reviews if there are pending reviews awaiting approval
+          // Auto-prioritize Customer Reviews if there are pending reviews awaiting approval;
+          // otherwise default the review filter to 'all' so live/approved reviews are visible.
           const pendingReviews = (window.SSS_REVIEWS && typeof window.SSS_REVIEWS.getPendingReviews === 'function')
             ? window.SSS_REVIEWS.getPendingReviews() : [];
           if (pendingReviews.length > 0) {
             setPortalTab('reviews');
-            currentRevFilter = 'pending';
-            document.querySelectorAll('.adm-rev-filter').forEach(b => {
-              if (b.getAttribute('data-filter') === 'pending') {
-                b.classList.add('active');
-              } else {
-                b.classList.remove('active');
-              }
-            });
+            setAdminReviewFilter('pending');
             renderAdminReviews();
           } else {
+            setAdminReviewFilter('all');
+            renderAdminReviews();
             initPortalTabFromHash();
           }
         } else {
@@ -1297,12 +1293,21 @@
         });
       }
 
+      function setAdminReviewFilter(filter) {
+        currentRevFilter = filter || 'all';
+        document.querySelectorAll('.adm-rev-filter').forEach(b => {
+          if (b.getAttribute('data-filter') === currentRevFilter) {
+            b.classList.add('active');
+          } else {
+            b.classList.remove('active');
+          }
+        });
+      }
+
       // Filter Tab Click Handlers
       document.querySelectorAll('.adm-rev-filter').forEach(btn => {
         btn.addEventListener('click', function() {
-          document.querySelectorAll('.adm-rev-filter').forEach(b => b.classList.remove('active'));
-          this.classList.add('active');
-          currentRevFilter = this.getAttribute('data-filter') || 'pending';
+          setAdminReviewFilter(this.getAttribute('data-filter') || 'pending');
           renderAdminReviews();
         });
       });
@@ -1314,28 +1319,19 @@
 
       if (mBoxPending) {
         mBoxPending.addEventListener('click', () => {
-          document.querySelectorAll('.adm-rev-filter').forEach(b => b.classList.remove('active'));
-          const targetBtn = document.querySelector('.adm-rev-filter[data-filter="pending"]');
-          if (targetBtn) targetBtn.classList.add('active');
-          currentRevFilter = 'pending';
+          setAdminReviewFilter('pending');
           renderAdminReviews();
         });
       }
       if (mBoxApproved) {
         mBoxApproved.addEventListener('click', () => {
-          document.querySelectorAll('.adm-rev-filter').forEach(b => b.classList.remove('active'));
-          const targetBtn = document.querySelector('.adm-rev-filter[data-filter="approved"]');
-          if (targetBtn) targetBtn.classList.add('active');
-          currentRevFilter = 'approved';
+          setAdminReviewFilter('approved');
           renderAdminReviews();
         });
       }
       if (mBoxAll) {
         mBoxAll.addEventListener('click', () => {
-          document.querySelectorAll('.adm-rev-filter').forEach(b => b.classList.remove('active'));
-          const targetBtn = document.querySelector('.adm-rev-filter[data-filter="all"]');
-          if (targetBtn) targetBtn.classList.add('active');
-          currentRevFilter = 'all';
+          setAdminReviewFilter('all');
           renderAdminReviews();
         });
       }
@@ -1492,7 +1488,7 @@
           const cleanUrl = window.location.pathname + (window.location.hash || '#reviews');
           window.history.replaceState({}, document.title, cleanUrl);
           if (imported && isAuthed()) {
-            currentRevFilter = 'pending';
+            setAdminReviewFilter('pending');
             setPortalTab('reviews');
             renderAdminReviews();
             showAdminToast(`Imported review by "${imported.name}" into Pending Approval!`);

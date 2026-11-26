@@ -697,6 +697,11 @@
       const pendingCount = (window.SSS_REVIEWS && typeof window.SSS_REVIEWS.getPendingReviews === 'function')
         ? window.SSS_REVIEWS.getPendingReviews().length : 0;
 
+      const pendingFilterBtn = document.getElementById('rf-btn-pending');
+      if (pendingFilterBtn) {
+        pendingFilterBtn.innerHTML = `<i class="fas fa-hourglass-half"></i> Pending (${pendingCount})`;
+      }
+
       if (!existingBanner) {
         existingBanner = document.createElement('div');
         existingBanner.id = ownerBannerId;
