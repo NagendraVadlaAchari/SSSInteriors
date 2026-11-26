@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Owner Portal — Showcase Management | SSS Interiors</title>
+  <title>Owner Portal — Showcase &amp; Reviews Moderation | SSS Interiors</title>
   <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg" />
   <link rel="apple-touch-icon" href="assets/images/logo.jpg" />
   <meta name="robots" content="noindex, nofollow" />
@@ -190,6 +190,329 @@
       background: #b91c1c;
       transform: scale(1.1);
     }
+
+    /* Portal Section Tabs */
+    .admin-portal-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .portal-tab-btn {
+      background: #181818;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #a3a3a3;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .portal-tab-btn:hover {
+      color: #ffffff;
+      border-color: var(--gold);
+    }
+    .portal-tab-btn.active {
+      background: rgba(200, 169, 106, 0.15);
+      border-color: var(--gold);
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* Review Metrics Row */
+    .admin-metrics-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .metric-card {
+      padding: 16px 20px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .metric-card:hover {
+      transform: translateY(-2px);
+    }
+    .metric-pending {
+      background: #231a0e;
+      border: 1px solid #d97706;
+    }
+    .metric-pending .metric-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      color: #fbbf24;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    .metric-pending .metric-icon i {
+      font-size: 1.8rem;
+      color: #fbbf24;
+    }
+    .metric-approved {
+      background: #0f241a;
+      border: 1px solid #059669;
+    }
+    .metric-approved .metric-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      color: #34d399;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    .metric-approved .metric-icon i {
+      font-size: 1.8rem;
+      color: #34d399;
+    }
+    .metric-all {
+      background: #181818;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .metric-all .metric-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      color: #9ca3af;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    .metric-all .metric-icon i {
+      font-size: 1.8rem;
+      color: #9ca3af;
+    }
+    .metric-num {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      font-family: var(--font-heading);
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* Review Filter Bar */
+    .admin-rev-filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .filter-btn-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .adm-rev-filter {
+      background: #111;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #a3a3a3;
+      padding: 7px 14px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .adm-rev-filter:hover {
+      color: #ffffff;
+      border-color: var(--gold);
+    }
+    .adm-rev-filter.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #000000;
+      font-weight: 600;
+    }
+    .adm-rev-search-wrap input {
+      background: #111;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 7px 14px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      width: 240px;
+    }
+    .adm-rev-search-wrap input:focus {
+      border-color: var(--gold);
+      outline: none;
+    }
+
+    /* Review Items */
+    .adm-review-item {
+      background: #121212;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 14px;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .adm-review-item.is-pending {
+      border-color: #d97706;
+      background: #19140d;
+      box-shadow: 0 4px 16px rgba(217, 119, 6, 0.12);
+    }
+    .adm-review-item:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .adm-review-item.is-pending:hover {
+      border-color: #f59e0b;
+    }
+    .adm-rev-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .adm-rev-author-info h4 {
+      margin: 0 0 4px;
+      font-size: 1.05rem;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .adm-rev-project-sub {
+      font-size: 0.8rem;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+    }
+    .adm-rev-stars {
+      color: var(--gold);
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+    .adm-rev-badges {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .badge-status-pending {
+      background: rgba(217, 119, 6, 0.2);
+      color: #fbbf24;
+      border: 1px solid #d97706;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .badge-status-approved {
+      background: rgba(5, 150, 105, 0.2);
+      color: #34d399;
+      border: 1px solid #059669;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .adm-rev-body {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.88);
+      background: rgba(0, 0, 0, 0.25);
+      border-left: 3px solid var(--gold);
+      padding: 10px 14px;
+      margin: 12px 0;
+      border-radius: 0 6px 6px 0;
+      font-style: italic;
+    }
+    .adm-rev-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .adm-rev-date {
+      font-size: 0.75rem;
+      color: #737373;
+    }
+    .adm-action-btns {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-action-accept {
+      background: #059669;
+      color: #ffffff;
+      border: 1px solid #10b981;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-action-accept:hover {
+      background: #047857;
+      transform: translateY(-1px);
+    }
+    .btn-action-delete {
+      background: rgba(220, 38, 38, 0.18);
+      color: #f87171;
+      border: 1px solid #ef4444;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-action-delete:hover {
+      background: #dc2626;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+    .btn-action-unapprove {
+      background: #1f2937;
+      color: #9ca3af;
+      border: 1px solid #374151;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .btn-action-unapprove:hover {
+      background: #374151;
+      color: #ffffff;
+    }
   </style>
 </head>
 <body>
@@ -204,6 +527,7 @@
       </div>
     </a>
     <div class="admin-nav-actions">
+      <a href="reviews.html" class="btn btn-outline-white btn-sm" target="_blank" title="View Customer Reviews Page"><i class="fas fa-star" style="color:var(--gold);"></i> Reviews Page</a>
       <a href="index.html" class="btn btn-outline-white btn-sm"><i class="fas fa-home"></i> View Website</a>
       <button id="admin-logout-btn" class="btn btn-outline-white btn-sm" style="display:none;"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
@@ -228,6 +552,22 @@
   <!-- DASHBOARD SCREEN (When unlocked) -->
   <main id="admin-dashboard-screen" class="admin-container" style="display:none;">
     
+    <!-- PORTAL SECTION NAVIGATION TABS -->
+    <div class="admin-portal-tabs">
+      <button type="button" class="portal-tab-btn active" data-target="all" id="tab-btn-all">
+        <i class="fas fa-th-large"></i> All Sections
+      </button>
+      <button type="button" class="portal-tab-btn" data-target="reviews" id="tab-btn-reviews">
+        <i class="fas fa-star" style="color:var(--gold);"></i> Customer Reviews
+        <span id="adm-tab-pending-badge" style="display:none; background:#d97706; color:#fff; font-size:0.7rem; padding:2px 7px; border-radius:10px; margin-left:6px; font-weight:700;">0 Pending</span>
+      </button>
+      <button type="button" class="portal-tab-btn" data-target="showcase" id="tab-btn-showcase">
+        <i class="fas fa-images"></i> Photo Showcase (<span id="adm-tab-showcase-count">0</span>)
+      </button>
+    </div>
+
+    <!-- SHOWCASE SECTION (Cards 1 & 2) -->
+    <div id="section-showcase">
     <!-- CARD 1: ADD NEW IMAGE FORM -->
     <div class="admin-card">
       <div class="admin-card-header">
@@ -307,6 +647,115 @@
         <!-- Dynamically rendered -->
       </div>
     </div>
+    </div><!-- END #section-showcase -->
+
+    <!-- REVIEWS MODERATION SECTION (Card 3) -->
+    <div id="section-reviews">
+      <div class="admin-card" id="admin-reviews-section">
+        <div class="admin-card-header">
+          <div>
+            <h2><i class="fas fa-star" style="color:var(--gold);"></i> Customer Reviews Moderation</h2>
+            <p style="font-size:0.85rem; color:#a3a3a3; margin:6px 0 0;">
+              Review client feedback submissions. <strong>Accept</strong> to publish live on your website, or <strong>Delete</strong> any review.
+            </p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+            <button type="button" id="adm-toggle-add-rev-btn" class="btn btn-gold btn-sm"><i class="fas fa-plus-circle"></i> Add Review</button>
+            <button type="button" id="adm-backup-rev-btn" class="btn btn-outline-white btn-sm" title="Download reviews JSON backup"><i class="fas fa-download"></i> Backup JSON</button>
+            <button type="button" id="adm-reset-rev-btn" class="btn btn-outline-white btn-sm" title="Restore default verified reviews"><i class="fas fa-undo"></i> Reset Defaults</button>
+          </div>
+        </div>
+
+        <!-- Quick Metrics Strip -->
+        <div class="admin-metrics-row">
+          <div class="metric-card metric-pending" id="metric-filter-pending" title="Click to filter by Pending Approval">
+            <div class="metric-info">
+              <span class="metric-title">Pending Approval</span>
+              <span class="metric-num" id="adm-stat-pending">0</span>
+            </div>
+            <div class="metric-icon"><i class="fas fa-clock"></i></div>
+          </div>
+          <div class="metric-card metric-approved" id="metric-filter-approved" title="Click to filter by Live / Accepted">
+            <div class="metric-info">
+              <span class="metric-title">Live / Accepted</span>
+              <span class="metric-num" id="adm-stat-approved">0</span>
+            </div>
+            <div class="metric-icon"><i class="fas fa-check-circle"></i></div>
+          </div>
+          <div class="metric-card metric-all" id="metric-filter-all" title="Click to view All Reviews">
+            <div class="metric-info">
+              <span class="metric-title">Total Reviews</span>
+              <span class="metric-num" id="adm-stat-total">0</span>
+            </div>
+            <div class="metric-icon"><i class="fas fa-comments"></i></div>
+          </div>
+        </div>
+
+        <!-- Filter Buttons for Status & Live Search -->
+        <div class="admin-rev-filter-bar">
+          <div class="filter-btn-group">
+            <button type="button" class="adm-rev-filter active" data-filter="pending">
+              <i class="fas fa-hourglass-half"></i> Pending Approval (<span id="filter-cnt-pending">0</span>)
+            </button>
+            <button type="button" class="adm-rev-filter" data-filter="approved">
+              <i class="fas fa-check-circle"></i> Live / Accepted (<span id="filter-cnt-approved">0</span>)
+            </button>
+            <button type="button" class="adm-rev-filter" data-filter="all">
+              <i class="fas fa-th-list"></i> All Reviews (<span id="filter-cnt-all">0</span>)
+            </button>
+          </div>
+          <div class="adm-rev-search-wrap">
+            <input type="text" id="adm-rev-search" placeholder="Search by name, project, text..." />
+          </div>
+        </div>
+
+        <!-- Add Review Form (Collapsible) -->
+        <div id="adm-add-rev-form-wrap" style="display:none; background:#141414; border:1px solid var(--gold); border-radius:8px; padding:20px; margin-bottom:24px;">
+          <h4 style="color:#ffffff; margin:0 0 14px; font-size:1.1rem; display:flex; align-items:center; justify-content:space-between;">
+            <span><i class="fas fa-user-edit" style="color:var(--gold);"></i> Add Client Review (Pre-Approved Live)</span>
+            <button type="button" id="adm-close-add-rev-btn" style="background:none; border:none; color:#a3a3a3; font-size:1.2rem; cursor:pointer;">&times;</button>
+          </h4>
+          <form id="adm-add-rev-form" class="owner-form">
+            <div class="form-grid-2">
+              <div class="owner-form-group">
+                <label for="adm-rev-author">Client Full Name *</label>
+                <input type="text" id="adm-rev-author" placeholder="e.g. Rajesh &amp; Sunita Varma" required />
+              </div>
+              <div class="owner-form-group">
+                <label for="adm-rev-project">Project &amp; Location *</label>
+                <input type="text" id="adm-rev-project" placeholder="e.g. 4BHK Luxury Villa • Kokapet" required />
+              </div>
+            </div>
+            <div class="form-grid-2">
+              <div class="owner-form-group">
+                <label for="adm-rev-rating">Rating (1 - 5 Stars) *</label>
+                <select id="adm-rev-rating" required>
+                  <option value="5" selected>★★★★★ (5 Stars - Excellent)</option>
+                  <option value="4">★★★★☆ (4 Stars - Very Good)</option>
+                  <option value="3">★★★☆☆ (3 Stars - Good)</option>
+                  <option value="2">★★☆☆☆ (2 Stars - Fair)</option>
+                  <option value="1">★☆☆☆☆ (1 Star - Poor)</option>
+                </select>
+              </div>
+              <div class="owner-form-group">
+                <label for="adm-rev-date">Date / Month</label>
+                <input type="text" id="adm-rev-date" placeholder="e.g. Nov 2026 (Leave blank for current)" />
+              </div>
+            </div>
+            <div class="owner-form-group">
+              <label for="adm-rev-comment">Review Feedback / Experience *</label>
+              <textarea id="adm-rev-comment" rows="3" placeholder="Enter detailed client endorsement..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-gold" style="width:100%; margin-top:10px;"><i class="fas fa-check-circle"></i> Save &amp; Publish Review to Website</button>
+          </form>
+        </div>
+
+        <!-- Reviews Feed List -->
+        <div id="adm-reviews-feed" class="adm-reviews-feed-container">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </div><!-- END #section-reviews -->
 
   </main>
 
@@ -321,6 +770,7 @@
   <!-- SCRIPTS -->
   <script src="config.js"></script>
   <script src="assets/js/projects-data.js"></script>
+  <script src="assets/js/reviews-data.js"></script>
 
   <script>
     (function() {
@@ -352,6 +802,8 @@
           dashScreen.style.display = 'block';
           logoutBtn.style.display = 'inline-flex';
           renderCustomGrid();
+          renderAdminReviews();
+          initPortalTabFromHash();
         } else {
           authScreen.style.display = 'block';
           dashScreen.style.display = 'none';
@@ -485,6 +937,8 @@
         } catch (err) { list = []; }
 
         countSpan.textContent = list.length;
+        const showcaseTabCount = document.getElementById('adm-tab-showcase-count');
+        if (showcaseTabCount) showcaseTabCount.textContent = list.length;
 
         if (list.length === 0) {
           customGrid.innerHTML = `
@@ -546,6 +1000,378 @@
         a.download = `sss-interiors-custom-projects-${new Date().toISOString().slice(0, 10)}.json`;
         a.click();
       });
+
+      // ========================================================
+      // PORTAL TAB SWITCHING (Showcase vs Reviews vs All)
+      // ========================================================
+      const tabBtnAll = document.getElementById('tab-btn-all');
+      const tabBtnReviews = document.getElementById('tab-btn-reviews');
+      const tabBtnShowcase = document.getElementById('tab-btn-showcase');
+      const secShowcase = document.getElementById('section-showcase');
+      const secReviews = document.getElementById('section-reviews');
+      const tabPendingBadge = document.getElementById('adm-tab-pending-badge');
+
+      function setPortalTab(target) {
+        if (!secShowcase || !secReviews) return;
+        document.querySelectorAll('.portal-tab-btn').forEach(b => b.classList.remove('active'));
+        if (target === 'reviews') {
+          secShowcase.style.display = 'none';
+          secReviews.style.display = 'block';
+          if (tabBtnReviews) tabBtnReviews.classList.add('active');
+        } else if (target === 'showcase') {
+          secShowcase.style.display = 'block';
+          secReviews.style.display = 'none';
+          if (tabBtnShowcase) tabBtnShowcase.classList.add('active');
+        } else {
+          secShowcase.style.display = 'block';
+          secReviews.style.display = 'block';
+          if (tabBtnAll) tabBtnAll.classList.add('active');
+        }
+      }
+
+      if (tabBtnAll) tabBtnAll.addEventListener('click', () => setPortalTab('all'));
+      if (tabBtnReviews) tabBtnReviews.addEventListener('click', () => setPortalTab('reviews'));
+      if (tabBtnShowcase) tabBtnShowcase.addEventListener('click', () => setPortalTab('showcase'));
+
+      function initPortalTabFromHash() {
+        const hash = window.location.hash.toLowerCase();
+        if (hash === '#reviews' || hash === '#admin-reviews-section' || hash === '#reviews-moderation') {
+          setPortalTab('reviews');
+        }
+      }
+
+      // ========================================================
+      // REVIEWS MODERATION & MANAGEMENT LOGIC
+      // ========================================================
+      const admStatPending = document.getElementById('adm-stat-pending');
+      const admStatApproved = document.getElementById('adm-stat-approved');
+      const admStatTotal = document.getElementById('adm-stat-total');
+
+      const filterCntPending = document.getElementById('filter-cnt-pending');
+      const filterCntApproved = document.getElementById('filter-cnt-approved');
+      const filterCntAll = document.getElementById('filter-cnt-all');
+
+      const admReviewsFeed = document.getElementById('adm-reviews-feed');
+      const admRevSearch = document.getElementById('adm-rev-search');
+
+      const admToggleAddRevBtn = document.getElementById('adm-toggle-add-rev-btn');
+      const admCloseAddRevBtn = document.getElementById('adm-close-add-rev-btn');
+      const admAddRevFormWrap = document.getElementById('adm-add-rev-form-wrap');
+      const admAddRevForm = document.getElementById('adm-add-rev-form');
+
+      const admBackupRevBtn = document.getElementById('adm-backup-rev-btn');
+      const admResetRevBtn = document.getElementById('adm-reset-rev-btn');
+
+      let currentRevFilter = 'pending';
+      let revSearchQuery = '';
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/[&<>"']/g, m => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;'
+        }[m]));
+      }
+
+      function renderAdminReviews() {
+        if (!window.SSS_REVIEWS || !admReviewsFeed) return;
+
+        const allReviews = window.SSS_REVIEWS.getAllReviews();
+        const pendingReviews = allReviews.filter(r => r.status === 'pending');
+        const approvedReviews = allReviews.filter(r => r.status === 'approved' || !r.status);
+
+        // Update Stat Counters
+        if (admStatPending) admStatPending.textContent = pendingReviews.length;
+        if (admStatApproved) admStatApproved.textContent = approvedReviews.length;
+        if (admStatTotal) admStatTotal.textContent = allReviews.length;
+
+        if (filterCntPending) filterCntPending.textContent = pendingReviews.length;
+        if (filterCntApproved) filterCntApproved.textContent = approvedReviews.length;
+        if (filterCntAll) filterCntAll.textContent = allReviews.length;
+
+        // Pending count badges in tab
+        if (tabPendingBadge) {
+          if (pendingReviews.length > 0) {
+            tabPendingBadge.style.display = 'inline-block';
+            tabPendingBadge.textContent = `${pendingReviews.length} Pending`;
+          } else {
+            tabPendingBadge.style.display = 'none';
+          }
+        }
+
+        // Filter list by selected tab
+        let filteredList = [];
+        if (currentRevFilter === 'pending') {
+          filteredList = pendingReviews;
+        } else if (currentRevFilter === 'approved') {
+          filteredList = approvedReviews;
+        } else {
+          filteredList = allReviews;
+        }
+
+        // Live text search
+        if (revSearchQuery.trim()) {
+          const q = revSearchQuery.toLowerCase();
+          filteredList = filteredList.filter(r => 
+            (r.name && r.name.toLowerCase().includes(q)) ||
+            (r.project && r.project.toLowerCase().includes(q)) ||
+            (r.comment && r.comment.toLowerCase().includes(q))
+          );
+        }
+
+        // Render Empty State
+        if (filteredList.length === 0) {
+          let emptyTitle = 'No reviews found in this view.';
+          let emptySub = '';
+          if (currentRevFilter === 'pending') {
+            emptyTitle = 'Zero Pending Reviews!';
+            emptySub = 'All client submissions have been accepted and are live on the website.';
+          } else if (currentRevFilter === 'approved') {
+            emptyTitle = 'No live reviews yet.';
+            emptySub = 'Accept pending submissions or click "+ Add Review" to add one.';
+          }
+          admReviewsFeed.innerHTML = `
+            <div style="text-align:center; padding:36px 16px; background:#111; border-radius:8px; border:1px solid rgba(255,255,255,0.06); color:#737373;">
+              <i class="fas fa-check-double" style="font-size:2.2rem; color:var(--gold); margin-bottom:12px; display:block;"></i>
+              <h5 style="color:#ffffff; font-size:1.05rem; margin-bottom:6px;">${emptyTitle}</h5>
+              <p style="font-size:0.85rem; max-width:400px; margin:0 auto;">${emptySub}</p>
+            </div>
+          `;
+          return;
+        }
+
+        // Render list of reviews
+        admReviewsFeed.innerHTML = filteredList.map(r => {
+          const isPending = r.status === 'pending';
+          const starCount = Math.max(1, Math.min(5, parseInt(r.rating, 10) || 5));
+          const starsHtml = '<i class="fas fa-star" style="color:var(--gold); margin-right:2px;"></i>'.repeat(starCount) + '<i class="far fa-star" style="color:rgba(255,255,255,0.25); margin-right:2px;"></i>'.repeat(5 - starCount);
+          const dateText = r.date || (r.timestamp ? new Date(r.timestamp).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent');
+
+          const statusBadge = isPending
+            ? `<span class="badge-status-pending"><i class="fas fa-clock"></i> Pending Approval</span>`
+            : `<span class="badge-status-approved"><i class="fas fa-check-circle"></i> Live on Website</span>`;
+
+          const actionButtons = isPending
+            ? `
+              <div class="adm-action-btns">
+                <button type="button" class="btn-action-accept" data-id="${r.id}" title="Publish live on website">
+                  <i class="fas fa-check"></i> Accept Review
+                </button>
+                <button type="button" class="btn-action-delete" data-id="${r.id}" title="Permanently delete submission">
+                  <i class="fas fa-trash-alt"></i> Delete
+                </button>
+              </div>
+            `
+            : `
+              <div class="adm-action-btns">
+                <button type="button" class="btn-action-unapprove" data-id="${r.id}" title="Hide from live website and move to pending">
+                  <i class="fas fa-pause"></i> Mark Pending
+                </button>
+                <button type="button" class="btn-action-delete" data-id="${r.id}" title="Permanently delete this review">
+                  <i class="fas fa-trash-alt"></i> Delete
+                </button>
+              </div>
+            `;
+
+          return `
+            <div class="adm-review-item ${isPending ? 'is-pending' : ''}">
+              <div class="adm-rev-header">
+                <div class="adm-rev-author-info">
+                  <h4>${escapeHtml(r.name)}</h4>
+                  <div class="adm-rev-project-sub">${escapeHtml(r.project || 'Residential Interior')}</div>
+                  <div class="adm-rev-stars">${starsHtml}</div>
+                </div>
+                <div class="adm-rev-badges">
+                  ${statusBadge}
+                </div>
+              </div>
+
+              <div class="adm-rev-body">
+                "${escapeHtml(r.comment)}"
+              </div>
+
+              <div class="adm-rev-actions">
+                <div class="adm-rev-date">
+                  <i class="far fa-calendar-alt"></i> ${dateText} &bull; ID: <code>${r.id}</code>
+                </div>
+                ${actionButtons}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Attach event listeners for Accept Review
+        admReviewsFeed.querySelectorAll('.btn-action-accept').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const accepted = window.SSS_REVIEWS.acceptReview(id);
+            if (accepted) {
+              renderAdminReviews();
+              showAdminToast(`Accepted review by "${accepted.name}"! Now live on website.`);
+            }
+          });
+        });
+
+        // Attach event listeners for Delete Review
+        admReviewsFeed.querySelectorAll('.btn-action-delete').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const target = allReviews.find(item => String(item.id) === String(id));
+            const name = target ? target.name : 'this client';
+            if (confirm(`Are you sure you want to permanently delete the review by "${name}"?`)) {
+              window.SSS_REVIEWS.deleteReview(id);
+              renderAdminReviews();
+              showAdminToast(`Review by "${name}" deleted.`);
+            }
+          });
+        });
+
+        // Attach event listeners for Mark Pending
+        admReviewsFeed.querySelectorAll('.btn-action-unapprove').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const target = allReviews.find(item => String(item.id) === String(id));
+            const name = target ? target.name : 'this review';
+            if (confirm(`Move review by "${name}" back to Pending? It will be hidden from the website.`)) {
+              window.SSS_REVIEWS.unapproveReview(id);
+              renderAdminReviews();
+              showAdminToast(`Review hidden and moved to Pending.`);
+            }
+          });
+        });
+      }
+
+      // Filter Tab Click Handlers
+      document.querySelectorAll('.adm-rev-filter').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.adm-rev-filter').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          currentRevFilter = this.getAttribute('data-filter') || 'pending';
+          renderAdminReviews();
+        });
+      });
+
+      // Metric box quick filters
+      const mBoxPending = document.getElementById('metric-filter-pending');
+      const mBoxApproved = document.getElementById('metric-filter-approved');
+      const mBoxAll = document.getElementById('metric-filter-all');
+
+      if (mBoxPending) {
+        mBoxPending.addEventListener('click', () => {
+          document.querySelectorAll('.adm-rev-filter').forEach(b => b.classList.remove('active'));
+          const targetBtn = document.querySelector('.adm-rev-filter[data-filter="pending"]');
+          if (targetBtn) targetBtn.classList.add('active');
+          currentRevFilter = 'pending';
+          renderAdminReviews();
+        });
+      }
+      if (mBoxApproved) {
+        mBoxApproved.addEventListener('click', () => {
+          document.querySelectorAll('.adm-rev-filter').forEach(b => b.classList.remove('active'));
+          const targetBtn = document.querySelector('.adm-rev-filter[data-filter="approved"]');
+          if (targetBtn) targetBtn.classList.add('active');
+          currentRevFilter = 'approved';
+          renderAdminReviews();
+        });
+      }
+      if (mBoxAll) {
+        mBoxAll.addEventListener('click', () => {
+          document.querySelectorAll('.adm-rev-filter').forEach(b => b.classList.remove('active'));
+          const targetBtn = document.querySelector('.adm-rev-filter[data-filter="all"]');
+          if (targetBtn) targetBtn.classList.add('active');
+          currentRevFilter = 'all';
+          renderAdminReviews();
+        });
+      }
+
+      // Search input
+      if (admRevSearch) {
+        admRevSearch.addEventListener('input', function() {
+          revSearchQuery = this.value;
+          renderAdminReviews();
+        });
+      }
+
+      // Toggle Add Review Form
+      if (admToggleAddRevBtn && admAddRevFormWrap) {
+        admToggleAddRevBtn.addEventListener('click', () => {
+          const isShown = admAddRevFormWrap.style.display === 'block';
+          admAddRevFormWrap.style.display = isShown ? 'none' : 'block';
+          if (!isShown) {
+            document.getElementById('adm-rev-author').focus();
+          }
+        });
+      }
+
+      if (admCloseAddRevBtn && admAddRevFormWrap) {
+        admCloseAddRevBtn.addEventListener('click', () => {
+          admAddRevFormWrap.style.display = 'none';
+        });
+      }
+
+      // Submit Admin Added Review
+      if (admAddRevForm) {
+        admAddRevForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const author = document.getElementById('adm-rev-author').value.trim();
+          const project = document.getElementById('adm-rev-project').value.trim();
+          const rating = parseInt(document.getElementById('adm-rev-rating').value, 10) || 5;
+          const date = document.getElementById('adm-rev-date').value.trim() || new Date().toLocaleDateString('en-IN', { month: 'short', year: 'numeric' });
+          const comment = document.getElementById('adm-rev-comment').value.trim();
+
+          if (!author || !comment) {
+            alert('Please fill out client name and feedback comment.');
+            return;
+          }
+
+          if (window.SSS_REVIEWS) {
+            window.SSS_REVIEWS.addReview({
+              name: author,
+              project: project,
+              rating: rating,
+              date: date,
+              comment: comment,
+              timestamp: Date.now()
+            }, true); // pre-approved live
+
+            admAddRevForm.reset();
+            admAddRevFormWrap.style.display = 'none';
+            // Switch to approved tab to see it
+            document.querySelectorAll('.adm-rev-filter').forEach(b => b.classList.remove('active'));
+            const targetBtn = document.querySelector('.adm-rev-filter[data-filter="approved"]');
+            if (targetBtn) targetBtn.classList.add('active');
+            currentRevFilter = 'approved';
+            renderAdminReviews();
+            showAdminToast(`Successfully published review by "${author}" live!`);
+          }
+        });
+      }
+
+      // Backup Reviews JSON
+      if (admBackupRevBtn) {
+        admBackupRevBtn.addEventListener('click', () => {
+          if (window.SSS_REVIEWS) {
+            window.SSS_REVIEWS.exportReviewsJSON();
+            showAdminToast('Reviews JSON backup downloaded.');
+          }
+        });
+      }
+
+      // Reset Default Reviews
+      if (admResetRevBtn) {
+        admResetRevBtn.addEventListener('click', () => {
+          if (confirm('Are you sure you want to restore the 9 verified default reviews? Any custom additions will be reset.')) {
+            if (window.SSS_REVIEWS) {
+              window.SSS_REVIEWS.resetDefaultReviews();
+              renderAdminReviews();
+              showAdminToast('Default reviews restored.');
+            }
+          }
+        });
+      }
 
       function showAdminToast(msg) {
         const t = document.getElementById('sss-toast');

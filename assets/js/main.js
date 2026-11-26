@@ -555,11 +555,14 @@
   ];
 
   function getStoredReviews() {
+    if (window.SSS_REVIEWS && typeof window.SSS_REVIEWS.getApprovedReviews === 'function') {
+      return window.SSS_REVIEWS.getApprovedReviews();
+    }
     try {
       const stored = localStorage.getItem('sss_customer_reviews');
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed.filter(r => r.status === 'approved' || !r.status);
       }
     } catch (e) {}
     return defaultVerifiedReviews;
@@ -581,15 +584,47 @@
       card.style.boxShadow = '0 8px 24px rgba(200, 169, 106, 0.25)';
     }
 
+    const isPending = rev.status === 'pending';
+    if (isPending) {
+      card.classList.add('cr-card-pending');
+      card.style.borderColor = '#d97706';
+      card.style.background = '#1a140b';
+    }
+
     const initial = (rev.name && rev.name.trim().length > 0) ? rev.name.trim().charAt(0).toUpperCase() : 'C';
     const starCount = Math.max(1, Math.min(5, parseInt(rev.rating, 10) || 5));
     const starHtml = '<i class="fas fa-star" style="color:var(--gold);margin-right:2px;"></i>'.repeat(starCount) + '<i class="far fa-star" style="color:rgba(255,255,255,0.25);margin-right:2px;"></i>'.repeat(5 - starCount);
     const dateText = rev.date || (rev.timestamp ? new Date(rev.timestamp).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Verified Homeowner');
 
+    const isOwner = sessionStorage.getItem('SSS_OWNER_AUTHENTICATED') === 'true';
+    let adminBarHtml = '';
+    if (isOwner) {
+      if (isPending) {
+        adminBarHtml = `
+          <div class="cr-admin-actions" style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(217,119,6,0.3); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <span style="font-size:0.75rem; color:#fbbf24; font-weight:600;"><i class="fas fa-shield-alt"></i> Action:</span>
+            <div style="display:flex; gap:8px;">
+              <button type="button" class="btn-owner-accept" data-id="${rev.id}" style="background:#059669; color:#fff; border:none; padding:6px 12px; border-radius:4px; font-size:0.75rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:4px;"><i class="fas fa-check"></i> Accept</button>
+              <button type="button" class="btn-owner-delete" data-id="${rev.id}" style="background:#dc2626; color:#fff; border:none; padding:6px 12px; border-radius:4px; font-size:0.75rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:4px;"><i class="fas fa-trash-alt"></i> Delete</button>
+            </div>
+          </div>
+        `;
+      } else {
+        adminBarHtml = `
+          <div class="cr-admin-actions" style="margin-top:14px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.08); display:flex; justify-content:flex-end;">
+            <button type="button" class="btn-owner-delete" data-id="${rev.id}" style="background:rgba(220,38,38,0.18); color:#f87171; border:1px solid #ef4444; padding:5px 10px; border-radius:4px; font-size:0.72rem; cursor:pointer; display:inline-flex; align-items:center; gap:4px;"><i class="fas fa-trash-alt"></i> Delete Review</button>
+          </div>
+        `;
+      }
+    }
+
     card.innerHTML = `
       <div class="cr-card-top">
         <div class="cr-header-row">
-          <span class="cr-badge"><i class="fas fa-check-circle"></i> Verified Homeowner</span>
+          ${isPending 
+            ? '<span class="cr-badge" style="background:#d97706; color:#fff;"><i class="fas fa-clock"></i> Pending Owner Approval</span>' 
+            : '<span class="cr-badge"><i class="fas fa-check-circle"></i> Verified Homeowner</span>'
+          }
           <span class="cr-date">${dateText}</span>
         </div>
         <div class="cr-stars">${starHtml}</div>
@@ -602,7 +637,34 @@
           <div class="cr-location">${escapeHtml(rev.project || 'Residential Turnkey Project')}</div>
         </div>
       </div>
+      ${adminBarHtml}
     `;
+
+    if (isOwner) {
+      const acceptBtn = card.querySelector('.btn-owner-accept');
+      if (acceptBtn) {
+        acceptBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (window.SSS_REVIEWS) {
+            window.SSS_REVIEWS.acceptReview(rev.id);
+            renderCustomerReviews(currentActiveReviewFilter);
+          }
+        });
+      }
+      const delBtn = card.querySelector('.btn-owner-delete');
+      if (delBtn) {
+        delBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (confirm(`Are you sure you want to delete the review by "${rev.name}"?`)) {
+            if (window.SSS_REVIEWS) {
+              window.SSS_REVIEWS.deleteReview(rev.id);
+              renderCustomerReviews(currentActiveReviewFilter);
+            }
+          }
+        });
+      }
+    }
+
     return card;
   }
 
@@ -617,15 +679,59 @@
     }[m]));
   }
 
+  let currentActiveReviewFilter = 'all';
+
   function renderCustomerReviews(filterCat = 'all') {
     if (!customerReviewsFeed) return;
+    currentActiveReviewFilter = filterCat;
     customerReviewsFeed.innerHTML = '';
-    let reviews = getStoredReviews();
     
     // Check if on dedicated reviews page
     const isReviewsPage = window.location.pathname.endsWith('reviews.html') || !!document.getElementById('allReviewsPageContainer');
+    const isOwner = sessionStorage.getItem('SSS_OWNER_AUTHENTICATED') === 'true';
+
+    // Ensure owner banner exists on reviews.html if owner is logged in
+    const ownerBannerId = 'ownerReviewsModerationBanner';
+    let existingBanner = document.getElementById(ownerBannerId);
+    if (isOwner && isReviewsPage) {
+      const pendingCount = (window.SSS_REVIEWS && typeof window.SSS_REVIEWS.getPendingReviews === 'function')
+        ? window.SSS_REVIEWS.getPendingReviews().length : 0;
+
+      if (!existingBanner) {
+        existingBanner = document.createElement('div');
+        existingBanner.id = ownerBannerId;
+        existingBanner.style.cssText = 'background:#1a140b; border:1px solid #d97706; border-radius:8px; padding:16px 20px; margin-bottom:32px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;';
+        customerReviewsFeed.parentNode.insertBefore(existingBanner, customerReviewsFeed);
+      }
+      existingBanner.innerHTML = `
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="background:#d97706; color:#000; font-size:0.75rem; font-weight:700; padding:4px 8px; border-radius:4px; text-transform:uppercase; letter-spacing:0.5px;">Owner Mode</span>
+          <span style="color:#ffffff; font-size:0.9rem;">
+            Logged in as <strong>Mahesh Shinde</strong> &bull; 
+            <strong style="color:#fbbf24;">${pendingCount} Pending Review${pendingCount === 1 ? '' : 's'}</strong> awaiting approval.
+          </span>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <a href="admin.html#reviews" class="btn btn-gold btn-sm"><i class="fas fa-sliders-h"></i> Open Owner Portal</a>
+        </div>
+      `;
+    } else if (existingBanner) {
+      existingBanner.remove();
+    }
+
+    let reviews = getStoredReviews();
+
+    // If owner is viewing reviews page, also show pending reviews at the top
+    if (isOwner && isReviewsPage && window.SSS_REVIEWS) {
+      const pending = window.SSS_REVIEWS.getPendingReviews();
+      if (filterCat === 'pending') {
+        reviews = pending;
+      } else if (filterCat === 'all') {
+        reviews = [...pending, ...reviews];
+      }
+    }
     
-    if (filterCat !== 'all') {
+    if (filterCat !== 'all' && filterCat !== 'pending') {
       if (filterCat === '5star') {
         reviews = reviews.filter(r => parseInt(r.rating, 10) === 5);
       } else {
@@ -636,6 +742,17 @@
     // On homepage, display initial 3 reviews; on reviews.html display all
     const listToRender = isReviewsPage ? reviews : reviews.slice(0, 3);
     
+    if (listToRender.length === 0) {
+      customerReviewsFeed.innerHTML = `
+        <div style="grid-column:1/-1; text-align:center; padding:40px 16px; color:#888;">
+          <i class="fas fa-comments" style="font-size:2.4rem; color:var(--gold); margin-bottom:12px; display:block;"></i>
+          <p style="font-size:1.05rem; color:#fff; margin-bottom:6px;">No reviews in this view yet.</p>
+          <p style="font-size:0.85rem;">Be the first client to leave feedback for this category!</p>
+        </div>
+      `;
+      return;
+    }
+
     listToRender.forEach(rev => {
       customerReviewsFeed.appendChild(createCustomerReviewCard(rev, false));
     });
@@ -649,12 +766,33 @@
   if (reviewFilterBtns.length > 0) {
     reviewFilterBtns.forEach(btn => {
       btn.addEventListener('click', function() {
-        reviewFilterBtns.forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.rf-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
         const cat = this.getAttribute('data-filter') || 'all';
         renderCustomerReviews(cat);
       });
     });
+
+    // If owner is logged in, append an owner-only "Pending Approvals" filter button
+    if (sessionStorage.getItem('SSS_OWNER_AUTHENTICATED') === 'true') {
+      const rfContainer = reviewFilterBtns[0] ? reviewFilterBtns[0].parentElement : null;
+      if (rfContainer && !document.getElementById('rf-btn-pending')) {
+        const pendingBtn = document.createElement('button');
+        pendingBtn.id = 'rf-btn-pending';
+        pendingBtn.className = 'pf-btn rf-btn';
+        pendingBtn.setAttribute('data-filter', 'pending');
+        pendingBtn.style.cssText = 'border-color:#d97706; color:#fbbf24;';
+        const pCount = (window.SSS_REVIEWS && typeof window.SSS_REVIEWS.getPendingReviews === 'function')
+          ? window.SSS_REVIEWS.getPendingReviews().length : 0;
+        pendingBtn.innerHTML = `<i class="fas fa-hourglass-half"></i> Pending (${pCount})`;
+        rfContainer.appendChild(pendingBtn);
+        pendingBtn.addEventListener('click', function() {
+          document.querySelectorAll('.rf-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          renderCustomerReviews('pending');
+        });
+      }
+    }
   }
 
   if (openReviewModalBtn && reviewModal) {
@@ -743,34 +881,42 @@
 
       if (!newReview.name || !newReview.comment) return;
 
-      // Save to localStorage
-      const existing = getStoredReviews();
-      existing.unshift(newReview);
-      saveStoredReviews(existing);
-
-      // Dynamically prepend to feed with zero extra space or grid distortion
-      if (customerReviewsFeed) {
-        const newEl = createCustomerReviewCard(newReview, true);
-        customerReviewsFeed.prepend(newEl);
+      // Save to reviews system as pending
+      let savedReview = null;
+      if (window.SSS_REVIEWS && typeof window.SSS_REVIEWS.addReview === 'function') {
+        savedReview = window.SSS_REVIEWS.addReview(newReview, false);
+      } else {
+        const existing = getStoredReviews();
+        savedReview = { ...newReview, status: 'pending', id: 'rev-' + Date.now() };
+        existing.unshift(savedReview);
+        saveStoredReviews(existing);
       }
 
-      // Show success feedback
-      if (reviewSuccessMsg) reviewSuccessMsg.style.display = 'block';
+      const isOwner = sessionStorage.getItem('SSS_OWNER_AUTHENTICATED') === 'true';
+      if (customerReviewsFeed && isOwner) {
+        renderCustomerReviews(currentActiveReviewFilter);
+      }
+
+      // Show success feedback informing about owner approval
+      if (reviewSuccessMsg) {
+        reviewSuccessMsg.innerHTML = `<i class="fas fa-check-circle"></i> Thank you, <strong>${escapeHtml(newReview.name)}</strong>! Your review has been submitted for owner approval and will appear on the website once accepted.`;
+        reviewSuccessMsg.style.display = 'block';
+      }
       customerReviewForm.reset();
       if (starRatingSelector) {
         starRatingSelector.querySelectorAll('.star-opt').forEach(s => s.classList.add('active'));
       }
       if (reviewRatingVal) reviewRatingVal.value = '5';
 
-      // Auto close modal after 1.2s and smooth scroll to reviews
+      // Auto close modal after 2.2s
       setTimeout(() => {
         closeReviewModal();
         if (reviewSuccessMsg) reviewSuccessMsg.style.display = 'none';
-        const reviewsWrap = document.getElementById('customerReviewsFeedWrap');
+        const reviewsWrap = document.getElementById('customerReviewsFeedWrap') || document.getElementById('allReviewsPageContainer');
         if (reviewsWrap) {
           reviewsWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
-      }, 1200);
+      }, 2200);
     });
   }
 

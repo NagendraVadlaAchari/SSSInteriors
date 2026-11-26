@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -929,7 +929,7 @@
         <button class="review-modal-close" id="closeReviewModalBtn" aria-label="Close Review Dialog">&times;</button>
         <span class="sec-eyebrow" style="color:var(--gold);">Client Experience</span>
         <h3 class="review-modal-title">Share Your Review With SSS Interiors</h3>
-        <p class="review-modal-desc">Tell us about your home transformation. Your feedback will be saved and published directly to our client reviews.</p>
+        <p class="review-modal-desc">Tell us about your home transformation. Your feedback will be submitted for owner verification and published to our client stories upon acceptance.</p>
         
         <form id="customerReviewForm" class="review-form">
           <div class="review-form-group">
@@ -961,7 +961,7 @@
           </div>
 
           <div id="reviewSuccessMsg" class="review-success-msg" style="display:none;">
-            <i class="fas fa-check-circle"></i> Thank you! Your review has been added. You can view all reviews on the Client Reviews page.
+            <i class="fas fa-check-circle"></i> Thank you! Your review has been submitted for owner verification and will appear on the website once accepted.
           </div>
 
           <button type="submit" class="btn btn-gold" style="width:100%;margin-top:8px;">
@@ -1101,9 +1101,10 @@
     <img id="lightbox-img" src="" alt="Full Interior View" />
   </div>
 
-  <!-- CONFIG SCRIPT FIRST, THEN MAIN JS -->
+  <!-- CONFIG SCRIPT FIRST, THEN REVIEWS & PROJECTS DATA, THEN MAIN JS -->
   <script src="config.js"></script>
   <script src="assets/js/projects-data.js"></script>
+  <script src="assets/js/reviews-data.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
