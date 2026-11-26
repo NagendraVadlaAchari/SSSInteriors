@@ -908,10 +908,42 @@
         renderCustomerReviews(currentActiveReviewFilter);
       }
 
+      const hasCloudSync = !!(window.SSS_REVIEWS && typeof window.SSS_REVIEWS.getCloudUrl === 'function' && window.SSS_REVIEWS.getCloudUrl());
+
+      // Build 1-click Owner Import Link & WhatsApp Notification
+      let waNotifyHtml = '';
+      if (!hasCloudSync && savedReview) {
+        try {
+          const payloadObj = {
+            id: savedReview.id,
+            name: savedReview.name,
+            project: savedReview.project,
+            rating: savedReview.rating,
+            comment: savedReview.comment,
+            date: savedReview.date,
+            timestamp: savedReview.timestamp
+          };
+          const jsonStr = JSON.stringify(payloadObj);
+          const b64 = btoa(unescape(encodeURIComponent(jsonStr)));
+          const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+          const approveLink = `${baseUrl}admin.html?importReview=${encodeURIComponent(b64)}#reviews`;
+          const waDest = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.whatsappNumber) ? SITE_CONFIG.whatsappNumber : '917702066446';
+          const waText = `Hi Mahesh Shinde, I submitted a review on SSS Interiors:\n\n*Name:* ${savedReview.name}\n*Project:* ${savedReview.project}\n*Rating:* ${savedReview.rating}/5 ★\n*Review:* "${savedReview.comment}"\n\n*Owner 1-Click Approve Link:*\n${approveLink}`;
+          waNotifyHtml = `
+            <div style="margin-top:10px;">
+              <a href="https://wa.me/${waDest}?text=${encodeURIComponent(waText)}" target="_blank" class="btn btn-whatsapp btn-sm" style="display:inline-flex; align-items:center; gap:6px; text-decoration:none;">
+                <i class="fab fa-whatsapp"></i> Send to Owner on WhatsApp for Approval
+              </a>
+            </div>
+          `;
+        } catch (err) {}
+      }
+
       // Show success feedback informing about owner approval
       if (reviewSuccessMsg) {
-        reviewSuccessMsg.innerHTML = `<i class="fas fa-check-circle"></i> Thank you, <strong>${escapeHtml(newReview.name)}</strong>! Your review has been submitted for owner approval and will appear on the website once accepted.`;
+        reviewSuccessMsg.innerHTML = `<i class="fas fa-check-circle"></i> Thank you, <strong>${escapeHtml(newReview.name)}</strong>! Your review has been submitted for owner approval.${waNotifyHtml}`;
         reviewSuccessMsg.style.display = 'block';
+        reviewSuccessMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
       customerReviewForm.reset();
       if (starRatingSelector) {
@@ -919,15 +951,17 @@
       }
       if (reviewRatingVal) reviewRatingVal.value = '5';
 
-      // Auto close modal after 2.2s
-      setTimeout(() => {
-        closeReviewModal();
-        if (reviewSuccessMsg) reviewSuccessMsg.style.display = 'none';
-        const reviewsWrap = document.getElementById('customerReviewsFeedWrap') || document.getElementById('allReviewsPageContainer');
-        if (reviewsWrap) {
-          reviewsWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      }, 2200);
+      // Auto close modal only if Cloud Sync is active (otherwise keep open so user can tap WhatsApp notify if desired)
+      if (hasCloudSync) {
+        setTimeout(() => {
+          closeReviewModal();
+          if (reviewSuccessMsg) reviewSuccessMsg.style.display = 'none';
+          const reviewsWrap = document.getElementById('customerReviewsFeedWrap') || document.getElementById('allReviewsPageContainer');
+          if (reviewsWrap) {
+            reviewsWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        }, 2500);
+      }
     });
   }
 

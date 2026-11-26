@@ -72,7 +72,10 @@ const SITE_CONFIG = {
 
   /* ── OWNER / ADMIN ACCESS ───────────────────────── */
   ownerPasscode:     "7702", // Default 4-digit PIN for Owner Access (matches 77020 66446)
-  developerWhatsApp: "917702066446" // Destination for quick project sync notifications
+  developerWhatsApp: "917702066446", // Destination for quick project sync notifications
+
+  /* ── CLOUD REVIEWS SYNC (Optional Firebase Realtime DB / JSON REST URL) ── */
+  reviewsCloudUrl:   "" // e.g. "https://your-project-default-rtdb.firebaseio.com/reviews.json"
 };
 
 /* Make config available globally */

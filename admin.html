@@ -661,8 +661,24 @@
           </div>
           <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
             <button type="button" id="adm-toggle-add-rev-btn" class="btn btn-gold btn-sm"><i class="fas fa-plus-circle"></i> Add Review</button>
+            <button type="button" id="adm-cloud-sync-btn" class="btn btn-outline-white btn-sm" title="Configure cross-device Cloud Sync"><i class="fas fa-cloud"></i> Cloud Sync</button>
             <button type="button" id="adm-backup-rev-btn" class="btn btn-outline-white btn-sm" title="Download reviews JSON backup"><i class="fas fa-download"></i> Backup JSON</button>
             <button type="button" id="adm-reset-rev-btn" class="btn btn-outline-white btn-sm" title="Restore default verified reviews"><i class="fas fa-undo"></i> Reset Defaults</button>
+          </div>
+        </div>
+
+        <!-- Cloud Sync Status / Config Panel -->
+        <div id="adm-cloud-panel" style="display:none; background:#141414; border:1px solid rgba(200,169,106,0.4); border-radius:8px; padding:16px; margin-bottom:20px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <strong style="color:var(--gold); font-size:0.9rem;"><i class="fas fa-cloud-upload-alt"></i> Cross-Device Cloud Sync (Firebase Realtime DB / JSON REST URL)</strong>
+            <button type="button" id="adm-close-cloud-btn" style="background:none; border:none; color:#a3a3a3; font-size:1.1rem; cursor:pointer;">&times;</button>
+          </div>
+          <p style="font-size:0.8rem; color:#a3a3a3; margin:0 0 10px;">
+            To automatically see reviews submitted by customers on other phones/devices without WhatsApp links, paste a free Firebase Realtime Database URL (e.g. <code>https://your-app-default-rtdb.firebaseio.com/reviews.json</code>) or set <code>reviewsCloudUrl</code> in <code>config.js</code>.
+          </p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <input type="url" id="adm-cloud-url-input" placeholder="https://your-project-default-rtdb.firebaseio.com/reviews.json" style="flex:1; min-width:220px; background:#111; border:1px solid rgba(255,255,255,0.2); color:#fff; padding:8px 12px; border-radius:4px; font-size:0.85rem;" />
+            <button type="button" id="adm-cloud-save-btn" class="btn btn-gold btn-sm"><i class="fas fa-save"></i> Save &amp; Sync Now</button>
           </div>
         </div>
 
@@ -1463,6 +1479,68 @@
         }
       });
 
+      // Handle ?importReview=<base64> from customer WhatsApp link
+      function handleImportReviewFromUrl() {
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const encoded = params.get('importReview');
+          if (!encoded || !window.SSS_REVIEWS) return;
+          const jsonStr = decodeURIComponent(escape(atob(encoded)));
+          const reviewObj = JSON.parse(jsonStr);
+          const imported = window.SSS_REVIEWS.importReview(reviewObj);
+          // Clean URL without reloading
+          const cleanUrl = window.location.pathname + (window.location.hash || '#reviews');
+          window.history.replaceState({}, document.title, cleanUrl);
+          if (imported && isAuthed()) {
+            currentRevFilter = 'pending';
+            setPortalTab('reviews');
+            renderAdminReviews();
+            showAdminToast(`Imported review by "${imported.name}" into Pending Approval!`);
+          }
+        } catch (err) {
+          console.warn('Failed to import review from URL:', err);
+        }
+      }
+
+      // Cloud Sync panel handlers
+      const admCloudSyncBtn = document.getElementById('adm-cloud-sync-btn');
+      const admCloudPanel = document.getElementById('adm-cloud-panel');
+      const admCloseCloudBtn = document.getElementById('adm-close-cloud-btn');
+      const admCloudUrlInput = document.getElementById('adm-cloud-url-input');
+      const admCloudSaveBtn = document.getElementById('adm-cloud-save-btn');
+
+      if (admCloudSyncBtn && admCloudPanel) {
+        admCloudSyncBtn.addEventListener('click', () => {
+          const isShown = admCloudPanel.style.display === 'block';
+          admCloudPanel.style.display = isShown ? 'none' : 'block';
+          if (!isShown && admCloudUrlInput && window.SSS_REVIEWS) {
+            admCloudUrlInput.value = window.SSS_REVIEWS.getCloudUrl() || '';
+          }
+        });
+      }
+      if (admCloseCloudBtn && admCloudPanel) {
+        admCloseCloudBtn.addEventListener('click', () => {
+          admCloudPanel.style.display = 'none';
+        });
+      }
+      if (admCloudSaveBtn && admCloudUrlInput) {
+        admCloudSaveBtn.addEventListener('click', async () => {
+          const url = admCloudUrlInput.value.trim();
+          if (window.SSS_REVIEWS) {
+            window.SSS_REVIEWS.setCloudUrl(url);
+            if (url) {
+              showAdminToast('Syncing with cloud database...');
+              await window.SSS_REVIEWS.syncFromCloud();
+              renderAdminReviews();
+              showAdminToast('Cloud Sync configured and synced!');
+            } else {
+              showAdminToast('Cloud Sync URL cleared.');
+            }
+          }
+        });
+      }
+
+      handleImportReviewFromUrl();
       updateView();
     })();
   </script>

@@ -142,11 +142,76 @@
     return DEFAULT_VERIFIED_REVIEWS.map(r => ({ ...r }));
   }
 
-  function saveAllReviews(reviews) {
+  const CLOUD_URL_KEY = 'sss_reviews_cloud_url';
+
+  function getCloudUrl() {
+    if (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.reviewsCloudUrl && SITE_CONFIG.reviewsCloudUrl.trim()) {
+      return SITE_CONFIG.reviewsCloudUrl.trim();
+    }
+    try {
+      const saved = localStorage.getItem(CLOUD_URL_KEY);
+      if (saved && saved.trim()) return saved.trim();
+    } catch (e) {}
+    return '';
+  }
+
+  function setCloudUrl(url) {
+    try {
+      if (url && url.trim()) {
+        localStorage.setItem(CLOUD_URL_KEY, url.trim());
+      } else {
+        localStorage.removeItem(CLOUD_URL_KEY);
+      }
+    } catch (e) {}
+  }
+
+  async function pushToCloud(reviews) {
+    const url = getCloudUrl();
+    if (!url || typeof fetch !== 'function') return false;
+    try {
+      const res = await fetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(reviews)
+      });
+      return res.ok;
+    } catch (e) {
+      console.warn('Cloud review push failed:', e);
+      return false;
+    }
+  }
+
+  async function syncFromCloud() {
+    const url = getCloudUrl();
+    if (!url || typeof fetch !== 'function') return null;
+    try {
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) return null;
+      const data = await res.json();
+      let remoteList = [];
+      if (Array.isArray(data)) {
+        remoteList = data.filter(Boolean);
+      } else if (data && typeof data === 'object') {
+        remoteList = Object.values(data).filter(Boolean);
+      }
+      if (remoteList.length > 0) {
+        saveAllReviews(remoteList, true);
+        return remoteList;
+      }
+    } catch (e) {
+      console.warn('Cloud review sync failed:', e);
+    }
+    return null;
+  }
+
+  function saveAllReviews(reviews, skipCloudPush = false) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
       if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
         window.dispatchEvent(new CustomEvent('sss-reviews-updated', { detail: { reviews } }));
+      }
+      if (!skipCloudPush) {
+        pushToCloud(reviews);
       }
     } catch (e) {
       console.warn('LocalStorage error while saving reviews:', e);
@@ -227,6 +292,29 @@
     a.click();
   }
 
+  // Import external review safely (e.g. from ?importReview=... link)
+  function importReview(data) {
+    if (!data || !data.name || !data.comment) return null;
+    const list = getAllReviews();
+    const exists = data.id && list.some(r => String(r.id) === String(data.id));
+    if (exists) {
+      return list.find(r => String(r.id) === String(data.id));
+    }
+    const imported = {
+      id: data.id || ('rev-' + Date.now() + '-' + Math.floor(Math.random() * 1000)),
+      name: String(data.name).trim(),
+      project: data.project ? String(data.project).trim() : 'Turnkey Home Interior',
+      rating: Math.max(1, Math.min(5, parseInt(data.rating, 10) || 5)),
+      comment: String(data.comment).trim(),
+      date: data.date || new Date().toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }),
+      timestamp: data.timestamp || Date.now(),
+      status: 'pending'
+    };
+    list.unshift(imported);
+    saveAllReviews(list);
+    return imported;
+  }
+
   // 7. PUBLIC API EXPOSURE
   window.SSS_REVIEWS = {
     DEFAULT_REVIEWS: DEFAULT_VERIFIED_REVIEWS,
@@ -237,8 +325,17 @@
     unapproveReview: unapproveReview,
     deleteReview: deleteReview,
     addReview: addReview,
+    importReview: importReview,
     resetDefaultReviews: resetDefaultReviews,
-    exportReviewsJSON: exportReviewsJSON
+    exportReviewsJSON: exportReviewsJSON,
+    getCloudUrl: getCloudUrl,
+    setCloudUrl: setCloudUrl,
+    syncFromCloud: syncFromCloud
   };
+
+  // Auto-sync from cloud on load if configured
+  if (getCloudUrl()) {
+    syncFromCloud();
+  }
 
 })();
