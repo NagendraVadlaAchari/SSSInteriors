@@ -667,6 +667,17 @@
           </div>
         </div>
 
+        <!-- Cloud Sync Status Warning (shown when reviewsCloudUrl is not configured) -->
+        <div id="adm-cloud-warning" style="display:none; background:rgba(217,119,6,0.12); border:1px solid rgba(217,119,6,0.45); border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:0.84rem; color:#fde68a; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+          <span>
+            <i class="fas fa-exclamation-triangle" style="color:#fbbf24; margin-right:6px;"></i>
+            <strong>Local Browser Mode Only:</strong> Approved reviews are currently saved only in this browser. To show approved reviews across <strong>other browsers &amp; mobile devices</strong>, configure <code>reviewsCloudUrl</code> in <code>config.js</code>.
+          </span>
+          <button type="button" id="adm-cloud-warn-btn" class="btn btn-outline-white btn-sm" style="border-color:#fbbf24; color:#fbbf24; font-size:0.76rem; padding:5px 10px;">
+            <i class="fas fa-cloud"></i> Setup Cloud Sync
+          </button>
+        </div>
+
         <!-- Cloud Sync Status / Config Panel -->
         <div id="adm-cloud-panel" style="display:none; background:#141414; border:1px solid rgba(200,169,106,0.4); border-radius:8px; padding:16px; margin-bottom:20px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -1116,6 +1127,12 @@
       function renderAdminReviews() {
         if (!window.SSS_REVIEWS || !admReviewsFeed) return;
 
+        const cloudWarn = document.getElementById('adm-cloud-warning');
+        if (cloudWarn) {
+          const hasCloud = typeof window.SSS_REVIEWS.getCloudUrl === 'function' && !!window.SSS_REVIEWS.getCloudUrl();
+          cloudWarn.style.display = hasCloud ? 'none' : 'flex';
+        }
+
         const allReviews = window.SSS_REVIEWS.getAllReviews();
         const pendingReviews = allReviews.filter(r => r.status === 'pending');
         const approvedReviews = allReviews.filter(r => r.status === 'approved' || !r.status);
@@ -1511,6 +1528,16 @@
           admCloudPanel.style.display = isShown ? 'none' : 'block';
           if (!isShown && admCloudUrlInput && window.SSS_REVIEWS) {
             admCloudUrlInput.value = window.SSS_REVIEWS.getCloudUrl() || '';
+          }
+        });
+      }
+      const admCloudWarnBtn = document.getElementById('adm-cloud-warn-btn');
+      if (admCloudWarnBtn && admCloudPanel) {
+        admCloudWarnBtn.addEventListener('click', () => {
+          admCloudPanel.style.display = 'block';
+          if (admCloudUrlInput && window.SSS_REVIEWS) {
+            admCloudUrlInput.value = window.SSS_REVIEWS.getCloudUrl() || '';
+            admCloudUrlInput.focus();
           }
         });
       }
