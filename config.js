@@ -75,7 +75,7 @@ const SITE_CONFIG = {
   developerWhatsApp: "917702066446", // Destination for quick project sync notifications
 
   /* ── CLOUD REVIEWS SYNC (Optional Firebase Realtime DB / JSON REST URL) ── */
-  reviewsCloudUrl:   "" // e.g. "https://your-project-default-rtdb.firebaseio.com/reviews.json"
+  reviewsCloudUrl:   "https://sssinteriors-a9be2-default-rtdb.firebaseio.com/Reviews.json"
 };
 
 /* Make config available globally */
